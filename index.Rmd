@@ -4,12 +4,64 @@ output:
   html_document:
     toc: true
     toc_float: true
+    code_folding: hide
 ---
 
 
+```{r, include = FALSE}
+library(tidyverse)
+library(plotly)
+library(lubridate)
+```
+
+```{r, message = FALSE, warning = FALSE}
+
+daily_cases = read_csv("./data/case_daily_trends__united_states.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    date = mdy(case_daily_trends_united_states),
+    new_cases = as.double(x2),
+    seven_day_ma = as.double(x3)) %>% 
+  select(date, new_cases, seven_day_ma) %>% 
+  slice(-1:-3) %>% 
+  map_df(rev) 
 
 
 
+```
+
+## Daily Trends in Number of COVID-19 Cases in the United States Reported
+
+```{r, message = FALSE, warning = FALSE}
+line.fmt = list(dash="solid", width = 1.5, color= "viridius")
+ 
+daily_cases %>% 
+  plot_ly(x = ~date, y = ~new_cases, type = "bar", name = "Daily New Cases") %>% 
+  add_lines( x=~date, y = ~seven_day_ma, line=line.fmt, name = "7-Day Moving Average") %>% 
+  layout(xaxis = list(title = "Date"), yaxis = list(title = "Daily New Cases"))
+```
+
+## Daily Trends in Number of COVID-19 Deaths in the United States 
+```{r, message = FALSE, warning = FALSE}
+daily_deaths = read_csv("./data/death_daily_trends__united_states.csv") %>%
+  janitor::clean_names() %>% 
+  mutate(
+    date = mdy(death_daily_trends_united_states),
+    new_deaths = as.double(x2),
+    seven_day_ma = as.double(x3)) %>% 
+    select(date, new_deaths, seven_day_ma) %>% 
+    slice(-1:-3) %>% 
+    map_df(rev)
+```
+
+```{r, message = FALSE, warning = FALSE}
+line.fmt = list(dash="solid", width = 1.5, color= "viridius")
+ 
+daily_deaths %>% 
+  plot_ly(x = ~date, y = ~new_deaths, type = "bar", name = "Daily New Deaths") %>% 
+  add_lines( x=~date, y = ~seven_day_ma, line=line.fmt, name = "7-Day Moving Average") %>% 
+  layout(xaxis = list(title = "Date"), yaxis = list(title = "Daily New Deaths"))
+```
 
 
 
