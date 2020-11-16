@@ -167,6 +167,293 @@ m
 ```
 
 
+#### Introducing a third dataset
+```{r, message = FALSE, warning = FALSE}
+Mobility = 
+   read_csv("./data/2020_US_Region_Mobility_Report.csv" ) %>%
+  janitor::clean_names() %>%
+   separate(date, c("year","month","day"), sep = "([-])") %>%
+  mutate(
+    state = state2abbr(sub_region_1),
+  date = paste(month,day,year,sep = "/"))  %>%
+   select(-metro_area,-country_region_code,-day,-month,-year) %>%
+  filter(!is.na(sub_region_1))
+  
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+Mobility_clean = 
+Mobility %>%
+  mutate(date = fct_inorder(date),
+         date = as.Date(date, "%m/%d/%y")) %>%
+  select(-iso_3166_2_code,-country_region,-census_fips_code,-sub_region_2,-sub_region_1) %>%
+  relocate(date,state) 
+```
+
+```{r, message = FALSE, warning = FALSE}
+Covid_clean =
+Covid %>%
+  mutate(date = fct_inorder(date),
+         date = as.Date(date, "%m/%d/%y")) %>%
+  select(-conf_cases,-prob_cases,-pnew_case,-conf_death,-prob_death,-pnew_death)
+  
+```
+
+
+
+
+```{r, message = FALSE, warning = FALSE}
+Covid_mobility_data=
+  left_join( Covid_clean,Mobility_clean, by = c("date")) %>% #left join two data, by date
+  filter(state.x==state.y) %>%
+  mutate(state=state.x) %>%
+  select(-state.x,-state.y)
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+rm(Covid)
+rm(Mobility)
+rm(Mobility_clean)
+rm(Covid_clean)
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+#There seems to be multiple date for each date and state, try to take mean of it 
+Covid_mobility_data %>%
+  group_by(date,state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            mean_newcases = mean(new_case),
+            n = n()) 
+  
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+#TRY to make plot about the relationship between mean_transit station percent change and date
+Covid_mobility_data %>%
+  group_by(date,state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            mean_newcases = mean(new_case),
+            n = n()) %>%
+  ggplot(aes(x = date,y = mean_transit,color = state)) +
+ geom_line(alpha=0.3) +
+ scale_x_date(date_breaks = "1 month")
+  
+```
+
+```{r, message = FALSE, warning = FALSE}
+Covid_mobility_data %>%
+  group_by(date,state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            sum_newcases = sum(new_case),
+            n = n()) %>%
+  ggplot(aes(x = date,y = sum_newcases,color = state)) +
+ geom_point(alpha=0.3) +
+ scale_x_date(date_breaks = "1 month")
+  
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+Covid_mobility_data %>%
+  group_by(date,state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline) & new_case >0) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            sum_newcases = sum(new_case),
+            n = n()) %>%
+  ggplot(aes(x = sum_newcases,y = mean_transit,color = state)) +
+ geom_point(alpha=0.3)
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+Covid_mobility_data %>%
+  group_by(date,state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline) & new_case >0) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            sum_tot_cases = sum(tot_cases),
+            n = n()) %>%
+  ggplot(aes(x = mean_transit,y = sum_tot_cases,color = state)) +
+ geom_point(alpha=0.3)
+```
+
+```{r, message = FALSE, warning = FALSE}
+#use plotly to compare the mean transit among each state
+Covid_mobility_data %>%
+  group_by(state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline) & new_case >0) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            n = n()) %>%
+  mutate(state = fct_reorder(state, mean_transit)) %>% 
+   plot_ly(x = ~state, y = ~mean_transit, color = ~state, type = "bar", colors = "viridis")
+```
+
+```{r, message = FALSE, warning = FALSE}
+#use plotly to compare the mean transit among each state
+Covid_mobility_data %>%
+  group_by(state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline) & new_case >0) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            sum_new_cases = sum(new_case),
+            n = n()) %>%
+  mutate(state = fct_reorder(state, sum_new_cases)) %>% 
+   plot_ly(x = ~state, y = ~sum_new_cases, color = ~state, type = "bar", colors = "viridis")
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+#use plotly to compare the mean transit among each state
+Covid_mobility_data %>%
+  group_by(state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline) & new_case >0) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            mean_new_cases = mean(new_case),
+            n = n()) %>%
+  mutate(state = fct_reorder(state, mean_new_cases)) %>% 
+   plot_ly(x = ~state, y = ~mean_new_cases, color = ~state, type = "bar", colors = "viridis")
+```
+```
+```{r, message = FALSE, warning = FALSE}
+plot_ILCA_MEAN_NEWCASE=
+Covid_mobility_data %>%
+  group_by(date,state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)& state == c("LA","IL")) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            mean_newcases = mean(new_case),
+            n = n()) %>%
+  ggplot(aes(x = date,y = mean_newcases,color = state)) +
+ geom_point(alpha=0.3) +
+  geom_smooth()+
+ scale_x_date(date_breaks = "1 month") +
+    facet_wrap(~state)
+```
+
+```{r, message = FALSE, warning = FALSE}
+plot_ILCA_MEAN_Transit=
+Covid_mobility_data %>%
+  group_by(date,state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)& state == c("LA","IL")) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            mean_newcases = mean(new_case),
+            n = n()) %>%
+  ggplot(aes(x = date,y = mean_transit,color = state)) +
+ geom_point(alpha=0.3) +
+  geom_smooth()+
+ scale_x_date(date_breaks = "1 month") +
+    facet_wrap(~state)
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+plot_ILCA_MEAN_Transit/plot_ILCA_MEAN_NEWCASE
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+Covid_mobility_data %>%
+  group_by(date,state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)& state == c("LA","IL")) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            sum_totalcases = sum(tot_cases),
+            n = n()) %>%
+  ggplot(aes(x = date,y = sum_totalcases,color = state)) +
+ geom_point(alpha=0.3) +
+  geom_smooth()+
+ scale_x_date(date_breaks = "1 month") +
+    facet_wrap(~state)
+```
+
+```{r, message = FALSE, warning = FALSE}
+#comparing only by date
+Covid_mobility_data %>%
+  group_by(date) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            sum_newcases = sum(new_case),
+            n = n()) %>%
+  ggplot(aes(x = date,y = sum_newcases,color="light pink")) +
+ geom_point(aes(size=mean_transit,alpha=0.3))+
+ scale_x_date(date_breaks = "1 month")+   
+  labs(titles = "number of newcases daily",
+        y = "New Cases"  )
+  
+```
+
+```{r, message = FALSE, warning = FALSE}
+#comparing only by date
+#TRANSIT
+Covid_mobility_data %>%
+  group_by(date) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+             sum_newcases = sum(new_case),
+            n = n()) %>%
+  ggplot(aes(x = date,y = mean_transit,color="light pink")) +
+ geom_point(aes(size=sum_newcases,alpha=0.3))+
+ scale_x_date(date_breaks = "1 month")+
+    labs(titles = "change in transit after covid",
+        y = "change in transit from baseline"  )
+```
+
+```{r, message = FALSE, warning = FALSE}
+Covid_mobility_data %>%
+  group_by(date) %>%
+   filter(!is.na(retail_and_recreation_percent_change_from_baseline)) %>%
+  summarise(mean_retail_recreation = mean(retail_and_recreation_percent_change_from_baseline),
+             sum_newcases = sum(new_case),
+            n = n()) %>%
+  ggplot(aes(x = date,y = mean_retail_recreation,color="light pink")) +
+ geom_point(aes(size=sum_newcases,alpha=0.3))+
+ scale_x_date(date_breaks = "1 month")+  
+  labs(titles = "change in retial and recreation after covid",
+        y = "change in retail and recreation from baseline"  )
+  
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+Covid_mobility_data %>%
+  group_by(date) %>%
+   filter(!is.na(residential_percent_change_from_baseline)) %>%
+  summarise(mean_residential = mean(residential_percent_change_from_baseline),
+             sum_newcases = sum(new_case),
+            n = n()) %>%
+  ggplot(aes(x = date,y = mean_residential,color="light pink")) +
+ geom_point(aes(size=sum_newcases,alpha=0.3))+
+ scale_x_date(date_breaks = "1 month")+  
+  labs(titles = "change in retial and recreation after covid",
+        y = "change in retail and recreation from baseline"  )
+  
+```
+
+```{r, message = FALSE, warning = FALSE}
+#comparing only by state
+Covid_mobility_data %>%
+  group_by(state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            mean_newcases = mean(new_case),
+            n = n()) 
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+mean_Covid_mobility_data =
+  Covid_mobility_data %>%
+  group_by(state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            mean_newcases = mean(new_case),
+            n = n()) 
+```
+
+
 
 
 
