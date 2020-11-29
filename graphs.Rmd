@@ -159,7 +159,21 @@ m <- leaflet(transport_state) %>%
 m
 ```
 
-The air transportation bubble map shows a comparison of the different proportions of the average number of trips from Mar.16th to Oct.16th, 2020, to the average baseline number of trips during the same period among the seven major airports in the US States (Boston Logan International, Charlotte Douglas International, Chicago O'Hare International, Denver International, Detroit Metropolitan Wayne County, Newark Liberty International, and Washington Dulles International). The larger the bubble is, the greater the percent of baseline and the smaller difference from the baseline will be. For Instances, we can see that the proportion corresponding to Newark Liberty International Airport (NJ) is the greatest, while the proportion corresponding to Washington Dulles International (VA) is the smallest. This difference implies that COVID-19 has brought a much more severe impact to air transportation in New Jersey than in Virginia.  
+The air transportation bubble map shows a comparison of the different proportions of the average number of trips from Mar.16th to Oct.16th, 2020, to the average baseline number of trips during the same period among the seven major airports in the US States:
+
+• Boston Logan International, Charlotte Douglas International
+
+• Chicago O'Hare International
+
+• Denver International 
+
+• Detroit Metropolitan Wayne County
+
+• Newark Liberty International
+
+•Washington Dulles International
+
+The larger the bubble is, the greater the percent of baseline and the smaller difference from the baseline will be. For Instances, we can see that the proportion corresponding to Newark Liberty International Airport (NJ) is the greatest, while the proportion corresponding to Washington Dulles International (VA) is the smallest. This difference implies that COVID-19 has brought a much more severe impact to air transportation in New Jersey than in Virginia.  
 
 ### Covid Bubble Map 
 
