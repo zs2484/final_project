@@ -1,0 +1,143 @@
+---
+title: "Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    source: embed
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(plotly)
+library(lubridate)
+library(readxl)
+library(janitor)
+library(dplyr)
+library(ggridges)
+library(usdata)
+library(usmap)
+library(ggplot2)
+library(patchwork)
+library(plotly)
+library(leaflet)
+```
+
+```{r, include = FALSE, message = FALSE, warning = FALSE}
+Covid =  
+  read_csv("./data/United_States_COVID-19_Cases_and_Deaths_by_State_over_Time.csv" ) %>%
+  janitor::clean_names() %>%
+  filter(consent_cases == "Agree" | consent_deaths == "Agree")%>% #need to decided whether this step is necessary
+  select("submission_date":"pnew_death") %>% #select variable of interest, need to look further into which variable we are interested in and way
+    rename(date = submission_date)  # rename date variable so that we can match data accordingly
+  
+```
+
+```{r, include = FALSE, message = FALSE, warning = FALSE}
+Mobility = 
+   read_csv("./data/2020_US_Region_Mobility_Report.csv" ) %>%
+  janitor::clean_names() %>%
+   separate(date, c("year","month","day"), sep = "([-])") %>%
+  mutate(
+    state = state2abbr(sub_region_1),
+  date = paste(month,day,year,sep = "/"))  %>%
+   select(-metro_area,-country_region_code,-day,-month,-year) %>%
+  filter(!is.na(sub_region_1))
+  
+```
+
+
+```{r, include = FALSE, message = FALSE, warning = FALSE}
+Mobility_clean = 
+Mobility %>%
+  mutate(date = fct_inorder(date),
+         date = as.Date(date, "%m/%d/%y")) %>%
+  select(-iso_3166_2_code,-country_region,-census_fips_code,-sub_region_2,-sub_region_1) %>%
+  relocate(date,state) 
+```
+
+```{r, include = FALSE, message = FALSE, warning = FALSE}
+Covid_clean =
+Covid %>%
+  mutate(date = fct_inorder(date),
+         date = as.Date(date, "%m/%d/%y")) %>%
+  select(-conf_cases,-prob_cases,-pnew_case,-conf_death,-prob_death,-pnew_death)
+  
+```
+
+
+
+
+```{r, include = FALSE, message = FALSE, warning = FALSE}
+Covid_mobility_data=
+  left_join( Covid_clean,Mobility_clean, by = c("date")) %>% #left join two data, by date
+  filter(state.x==state.y) %>%
+  mutate(state=state.x) %>%
+  select(-state.x,-state.y)
+```
+
+```{r, include = FALSE, message = FALSE, warning = FALSE}
+personal_consumption_df = 
+  read_csv("./data/personal_consumption.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(date = fred_graph_observations, 
+         personal_consumption = x2) %>% 
+  select(date, personal_consumption) %>% 
+  slice(719:752) %>% 
+  mutate(personal_consumption = as.double(personal_consumption),
+         personal_consumption = round(personal_consumption, digits = 1))
+
+unemployment_df = 
+  read_csv("./data/unemployment_rate.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(date = fred_graph_observations, 
+         unemployment_rate = x2) %>% 
+  select(date, unemployment_rate) %>% 
+  slice(851:884)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+Covid_mobility_data %>%
+  group_by(date) %>%
+   filter(!is.na(retail_and_recreation_percent_change_from_baseline)) %>%
+  summarise(mean_retail_recreation = mean(retail_and_recreation_percent_change_from_baseline),
+             sum_newcases = sum(new_case),
+            n = n()) %>%
+  ggplot(aes(x = date,y = mean_retail_recreation,color="light pink")) +
+ geom_point(aes(size=sum_newcases,alpha=0.3))+
+ scale_x_date(date_breaks = "1 month")+  
+  labs(titles = "change in retial and recreation after covid",
+        y = "change in retail and recreation from baseline"  )
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+personal_consumption_df %>% 
+  ggplot(aes(x = date, y = personal_consumption))+
+  geom_point(color = 'blue')+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(x = "Date", y = "Personal Consumption Expenditure (in Billion)")
+```
+
+### Chart C
+
+```{r}
+unemployment_df %>% 
+  ggplot(aes(x = date, y = unemployment_rate))+
+  geom_point(color = 'blue')+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(x = "Date", y = "Unemployment Rate")
+```
+
+
+

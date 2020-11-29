@@ -161,7 +161,9 @@ m
 
 The air transportation bubble map shows a comparison of the different proportions of the average number of trips from Mar.16th to Oct.16th, 2020, to the average baseline number of trips during the same period among the seven major airports in the US States:
 
-• Boston Logan International, Charlotte Douglas International
+• Boston Logan International
+
+• Charlotte Douglas International
 
 • Chicago O'Hare International
 
