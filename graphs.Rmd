@@ -450,21 +450,65 @@ This panel shows the daily confirmed case trends in IL and LA from Feb.15 to Oct
 #        y = "change in transit from baseline"  )
 ```
 
+**Economics**
+
+### Mobility Trends for Retail & Recreation
+
 ```{r, message = FALSE, warning = FALSE}
-#Covid_mobility_data %>%
-#  group_by(date) %>%
-#   filter(!is.na(retail_and_recreation_percent_change_from_baseline)) %>%
-#  summarise(mean_retail_recreation = #mean(retail_and_recreation_percent_change_from_baseline),
-#             sum_newcases = sum(new_case),
-#            n = n()) %>%
-#  ggplot(aes(x = date,y = mean_retail_recreation,color="light pink")) +
-# geom_point(aes(size=sum_newcases,alpha=0.3))+
-# scale_x_date(date_breaks = "1 month")+  
-#  labs(titles = "change in retial and recreation after covid",
-#        y = "change in retail and recreation from baseline"  )
-#  
+Covid_mobility_data %>%
+  group_by(date) %>%
+   filter(!is.na(retail_and_recreation_percent_change_from_baseline)) %>%
+  summarise(mean_retail_recreation = mean(retail_and_recreation_percent_change_from_baseline),
+             sum_newcases = sum(new_case),
+            n = n()) %>%
+  ggplot(aes(x = date,y = mean_retail_recreation,color="light pink")) +
+ geom_point(aes(size=sum_newcases,alpha=0.3))+
+ scale_x_date(date_breaks = "1 month")+  
+  labs(titles = "change in retial and recreation after covid",
+        y = "change in retail and recreation from baseline"  )
+  
 ```
 
+
+### Monlthy Personal Consumption Expenditures (in Billion) from 2018-2020
+
+```{r, message = FALSE, warning = FALSE}
+personal_consumption_df = 
+  read_csv("./data/personal_consumption.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(date = fred_graph_observations, 
+         personal_consumption = x2) %>% 
+  select(date, personal_consumption) %>% 
+  slice(719:752) %>% 
+  mutate(personal_consumption = as.double(personal_consumption),
+         personal_consumption = round(personal_consumption, digits = 1))
+  
+  
+personal_consumption_df %>% 
+  ggplot(aes(x = date, y = personal_consumption))+
+  geom_point(color = 'blue')+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(x = "Date", y = "Personal Consumption Expenditure (in Billion)")
+```
+
+### Monthly Unemployment Rate Percentage from 2018-2020
+
+```{r, message = FALSE, warning = FALSE}
+unemployment_df = 
+  read_csv("./data/unemployment_rate.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(date = fred_graph_observations, 
+         unemployment_rate = x2) %>% 
+  select(date, unemployment_rate) %>% 
+  slice(851:884)
+  
+  
+unemployment_df %>% 
+  ggplot(aes(x = date, y = unemployment_rate))+
+  geom_point(color = 'blue')+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(x = "Date", y = "Unemployment Rate")
+```
 
 ```{r, message = FALSE, warning = FALSE}
 #Covid_mobility_data %>%
