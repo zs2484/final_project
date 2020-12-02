@@ -33,12 +33,14 @@ theme_set(theme_bw() +
                 legend.title = element_blank(),
                 plot.title = element_text(hjust = 0.5, size = 15),
                 plot.subtitle = element_text(hjust = 0.5, size = 12)))
+
+options(scipen = 999)
 ```
 
 
 **After determining that the outbreak of COVID-19 took place in mid-March and still has not been under full control, we can start analyzing data within this time frame.**
 
-*Firstly, we mapped two bubble maps to see how air transportation is affected by comparing the flight numbers' changes since the middle of March and the number of total COVID-19 cases by states.*
+*Firstly, we mapped two bubble maps to see how air transportation is affected by comparing the flight amount since the middle of March with the number of total COVID-19 cases by states. Percent of baseline is the amount of flight compared to the baseline flight amount,  which makes the data easier to understand and compare.*
 
 
 ```{r , message = FALSE, warning = FALSE}
@@ -111,7 +113,7 @@ m <- leaflet(transport_state) %>%
 m
 ```
 
-The air transportation bubble map shows a comparison of the different proportions of the average number of trips from Mar.16th to Oct.16th, 2020, to the average baseline number of trips during the same period among the seven major airports in the US States:
+The air transportation bubble map shows a comparison between the average flight amount from Mar.16th to Oct.16th, 2020, and total covid-19 cases during the same period among the seven major airports in the US States:
 
 • Boston Logan International
 
@@ -127,7 +129,7 @@ The air transportation bubble map shows a comparison of the different proportion
 
 •Washington Dulles International
 
-The larger the bubble is, the greater the percent of baseline and the smaller difference from the baseline will be. For Instances, we can see that the proportion corresponding to Newark Liberty International Airport (NJ) is the greatest, while the proportion corresponding to Washington Dulles International (VA) is the smallest. This difference implies that COVID-19 has brought a much more severe impact to air transportation in New Jersey than in Virginia.  
+The larger the bubble is, the greater the percent of baseline and the smaller difference from the baseline will be. For instance, we can see that the proportion of Newark Liberty International Airport (NJ) is the greatest, while the proportion of Washington Dulles International (VA) is the smallest. This difference implies that COVID-19 has brought a much more severe impact to air transportation in New Jersey than in Virginia.  
 
 ### Covid Bubble Map 
 
@@ -172,7 +174,7 @@ n
 
 ```
 
-The COVID bubble map provides information on the number of total COVID-19 cases from Mar.16th to Oct.16th by states. The larger the bubble size is, the larger number of the total COVID-19 cases is. As seen in this plot, Illinois, North Carolina, and New Jersey have a relatively greater number of total cases, while Colorado has the smallest number of total cases. 
+The COVID bubble map provides information on the number of total COVID-19 cases from Mar.16th to Oct.16th by states. The larger the bubble size is, the larger the number of the total COVID-19 cases is. As seen in this plot, Illinois, North Carolina, and New Jersey have a relatively greater number of total cases, while Colorado has the smallest number of total cases. 
 
 *By comparing the two bubble maps, we can see an association between the flights and the number of total COVID-19 cases from Mar.16th to Oct.16th. For the states, such as New Jersey, the percent of baseline for the flights is relatively smaller with more total cases, suggesting that as the number of total cases increases, the impact of COVID-19 brought to the air transportation will also be increased.*
 
@@ -181,19 +183,21 @@ The COVID bubble map provides information on the number of total COVID-19 cases 
 ```{r}
 Covid_transport_data %>% 
   ggplot(aes(x = percent_of_baseline, y = tot_cases, color = state.x)) + 
-  geom_point(alpha = 0.6) 
+  geom_point(alpha = 0.6) +
+  labs(
+    title = "Total Cases VS Airline Amount",
+    x = "Percent of Baseline",
+    y = "Total Cases"
+  )
 ```
 
 ```{r}
 regression_tot = lm(tot_cases ~ percent_of_baseline, Covid_transport_data)
-
-
-
 knitr::kable(tidy(regression_tot))
   
 ```
 
-There is an positive association in total cases with respect to percent of baseline, the airline amounts for all states, so we do a regression test for each state to see if this positive relation can be applied to every state.
+There is a positive association in total cases with respect to percent of baseline, the airline amount for all states, so we do a regression test for each state to see if this positive relation can be applied to every state.
 
 ```{r}
 regression_state = Covid_transport_data %>% 
@@ -206,9 +210,9 @@ regression_state = Covid_transport_data %>%
   select(-data, -models) %>% 
   unnest(results) %>% 
   filter(str_detect(term, "percent_of_baseline")) %>% 
-  knitr::kable(digits = 3)
+  knitr::kable()
 
-
+regression_state
 ```
 
-We can see from the regression table that four states have statistically significant p-values.  They demonstrate a tendency that as airlines start to increase, the total cases increase accordingly with a relatively steep slope.  In other words, covid-19 cases are positively associated with airline amounts in Colorado, North Carolina, New Jersey, Virginia.  For Illinois and Michigan, p-values are not statistically strong, but the estimated slope is positive.  However, Massachusetts has a negative slope with large p-value, which indicates that there might be no association in airline amounts and covid-19 cases or there might be stronger factors associated with covid-19 cases.
+We can see from the regression table that four states have statistically significant p-values.  They demonstrate a tendency that as airlines start to increase, the total cases increase accordingly with a relatively steep slope.  In other words, covid-19 cases are positively associated with airline amount in Colorado, North Carolina, New Jersey, Virginia.  For Illinois and Michigan, p-values are not statistically strong, but the estimated slope is positive.  However, Massachusetts has a negative slope with large p-value, which indicates that there might be no association in airline amount and covid-19 cases or there might be stronger factors associated with covid-19 cases.

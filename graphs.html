@@ -406,7 +406,7 @@ div.tocify {
 
 
 <p><strong>After determining that the outbreak of COVID-19 took place in mid-March and still has not been under full control, we can start analyzing data within this time frame.</strong></p>
-<p><em>Firstly, we mapped two bubble maps to see how air transportation is affected by comparing the flight numbers’ changes since the middle of March and the number of total COVID-19 cases by states.</em></p>
+<p><em>Firstly, we mapped two bubble maps to see how air transportation is affected by comparing the flight amount since the middle of March with the number of total COVID-19 cases by states. Percent of baseline is the amount of flight compared to the baseline flight amount, which makes the data easier to understand and compare.</em></p>
 <pre class="r"><code>#import data for covid_impact_on_airport_traffic
 #Main Problem: join data, have date and state match for both data
 # Transportation and Covid have different way to representing date(2020-01-01 in transportation date and 01/01/2020 in Covid data)
@@ -471,9 +471,9 @@ m &lt;- leaflet(transport_state) %&gt;%
   addLegend( pal= mypalette, values=~mean_percent_base, opacity=1, title = &quot;Percent of baseline&quot;, position = &quot;bottomright&quot; )
   
 m</code></pre>
-<div id="htmlwidget-f867354e3a655a6675f7" style="width:672px;height:480px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f867354e3a655a6675f7">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[42,35,42,40,42,41,39],[-71,-81,-88,-105,-83,-74,-77],[32.125,37.88,36.07,27.645,23.545,42.665,27.495],null,null,{"interactive":true,"className":"","stroke":false,"color":"white","weight":5,"opacity":0.5,"fill":true,"fillColor":["#B6367A","#FB8861","#FB8861","#51127C","#000004","#FCFDBF","#51127C"],"fillOpacity":0.7},null,null,null,null,["Longitude:  -71 Latitude:  42 Percent of baseline:  64.25","Longitude:  -81 Latitude:  35 Percent of baseline:  75.76","Longitude:  -88 Latitude:  42 Percent of baseline:  72.14","Longitude:  -105 Latitude:  40 Percent of baseline:  55.29","Longitude:  -83 Latitude:  42 Percent of baseline:  47.09","Longitude:  -74 Latitude:  41 Percent of baseline:  85.33","Longitude:  -77 Latitude:  39 Percent of baseline:  54.99"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"13px","textOnly":false,"style":{"font-weight":"normal","padding":"3px 8px"},"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#000004","#51127C","#B6367A","#FB8861","#FCFDBF"],"labels":["40 &ndash; 50","50 &ndash; 60","60 &ndash; 70","70 &ndash; 80","80 &ndash; 90"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"bin","title":"Percent of baseline","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[35,42],"lng":[-105,-71]}},"evals":[],"jsHooks":[]}</script>
-<p>The air transportation bubble map shows a comparison of the different proportions of the average number of trips from Mar.16th to Oct.16th, 2020, to the average baseline number of trips during the same period among the seven major airports in the US States:</p>
+<div id="htmlwidget-2db828e2e9e292097f38" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2db828e2e9e292097f38">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[42,35,42,40,42,41,39],[-71,-81,-88,-105,-83,-74,-77],[32.125,37.88,36.07,27.645,23.545,42.665,27.495],null,null,{"interactive":true,"className":"","stroke":false,"color":"white","weight":5,"opacity":0.5,"fill":true,"fillColor":["#B6367A","#FB8861","#FB8861","#51127C","#000004","#FCFDBF","#51127C"],"fillOpacity":0.7},null,null,null,null,["Longitude:  -71 Latitude:  42 Percent of baseline:  64.25","Longitude:  -81 Latitude:  35 Percent of baseline:  75.76","Longitude:  -88 Latitude:  42 Percent of baseline:  72.14","Longitude:  -105 Latitude:  40 Percent of baseline:  55.29","Longitude:  -83 Latitude:  42 Percent of baseline:  47.09","Longitude:  -74 Latitude:  41 Percent of baseline:  85.33","Longitude:  -77 Latitude:  39 Percent of baseline:  54.99"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"13px","textOnly":false,"style":{"font-weight":"normal","padding":"3px 8px"},"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#000004","#51127C","#B6367A","#FB8861","#FCFDBF"],"labels":["40 &ndash; 50","50 &ndash; 60","60 &ndash; 70","70 &ndash; 80","80 &ndash; 90"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"bin","title":"Percent of baseline","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[35,42],"lng":[-105,-71]}},"evals":[],"jsHooks":[]}</script>
+<p>The air transportation bubble map shows a comparison between the average flight amount from Mar.16th to Oct.16th, 2020, and total covid-19 cases during the same period among the seven major airports in the US States:</p>
 <p>• Boston Logan International</p>
 <p>• Charlotte Douglas International</p>
 <p>• Chicago O’Hare International</p>
@@ -481,7 +481,7 @@ m</code></pre>
 <p>• Detroit Metropolitan Wayne County</p>
 <p>• Newark Liberty International</p>
 <p>•Washington Dulles International</p>
-<p>The larger the bubble is, the greater the percent of baseline and the smaller difference from the baseline will be. For Instances, we can see that the proportion corresponding to Newark Liberty International Airport (NJ) is the greatest, while the proportion corresponding to Washington Dulles International (VA) is the smallest. This difference implies that COVID-19 has brought a much more severe impact to air transportation in New Jersey than in Virginia.</p>
+<p>The larger the bubble is, the greater the percent of baseline and the smaller difference from the baseline will be. For instance, we can see that the proportion of Newark Liberty International Airport (NJ) is the greatest, while the proportion of Washington Dulles International (VA) is the smallest. This difference implies that COVID-19 has brought a much more severe impact to air transportation in New Jersey than in Virginia.</p>
 </div>
 <div id="covid-bubble-map" class="section level3">
 <h3>Covid Bubble Map</h3>
@@ -522,21 +522,23 @@ n &lt;- leaflet(case_state) %&gt;%
   addLegend( pal= mypalette, values=~total_cases, opacity=1, title = &quot;Total cases&quot;, position = &quot;bottomright&quot; )
   
 n</code></pre>
-<div id="htmlwidget-e49de5e0dee86c514f4f" style="width:672px;height:480px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e49de5e0dee86c514f4f">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[42,35,42,40,42,41,39],[-71,-81,-88,-105,-83,-74,-77],[30.2349156605405,38.4699996750715,45.6183748614525,22.5783912181537,31.2186462710989,36.5246423664901,31.8132480265691],null,null,{"interactive":true,"className":"","stroke":false,"color":"white","weight":5,"opacity":0.5,"fill":true,"fillColor":["#3B0F70","#DE4968","#FCFDBF","#000004","#3B0F70","#8C2981","#3B0F70"],"fillOpacity":0.7},null,null,null,null,["Longitude:  -71 Latitude:  42 Total Cases:  149249","Longitude:  -81 Latitude:  35 Total Cases:  241623","Longitude:  -88 Latitude:  42 Total Cases:  339761","Longitude:  -105 Latitude:  40 Total Cases:  83230","Longitude:  -83 Latitude:  42 Total Cases:  159119","Longitude:  -74 Latitude:  41 Total Cases:  217804","Longitude:  -77 Latitude:  39 Total Cases:  165238"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"13px","textOnly":false,"style":{"font-weight":"normal","padding":"3px 8px"},"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#000004","#3B0F70","#8C2981","#DE4968","#FE9F6D","#FCFDBF"],"labels":["80,000 &ndash; 130,000","130,000 &ndash; 180,000","180,000 &ndash; 230,000","230,000 &ndash; 280,000","280,000 &ndash; 330,000","330,000 &ndash; 380,000"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"bin","title":"Total cases","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[35,42],"lng":[-105,-71]}},"evals":[],"jsHooks":[]}</script>
-<p>The COVID bubble map provides information on the number of total COVID-19 cases from Mar.16th to Oct.16th by states. The larger the bubble size is, the larger number of the total COVID-19 cases is. As seen in this plot, Illinois, North Carolina, and New Jersey have a relatively greater number of total cases, while Colorado has the smallest number of total cases.</p>
+<div id="htmlwidget-fc703de9af256896ac09" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fc703de9af256896ac09">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[42,35,42,40,42,41,39],[-71,-81,-88,-105,-83,-74,-77],[30.2349156605405,38.4699996750715,45.6183748614525,22.5783912181537,31.2186462710989,36.5246423664901,31.8132480265691],null,null,{"interactive":true,"className":"","stroke":false,"color":"white","weight":5,"opacity":0.5,"fill":true,"fillColor":["#3B0F70","#DE4968","#FCFDBF","#000004","#3B0F70","#8C2981","#3B0F70"],"fillOpacity":0.7},null,null,null,null,["Longitude:  -71 Latitude:  42 Total Cases:  149249","Longitude:  -81 Latitude:  35 Total Cases:  241623","Longitude:  -88 Latitude:  42 Total Cases:  339761","Longitude:  -105 Latitude:  40 Total Cases:  83230","Longitude:  -83 Latitude:  42 Total Cases:  159119","Longitude:  -74 Latitude:  41 Total Cases:  217804","Longitude:  -77 Latitude:  39 Total Cases:  165238"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"13px","textOnly":false,"style":{"font-weight":"normal","padding":"3px 8px"},"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#000004","#3B0F70","#8C2981","#DE4968","#FE9F6D","#FCFDBF"],"labels":["80,000 &ndash; 130,000","130,000 &ndash; 180,000","180,000 &ndash; 230,000","230,000 &ndash; 280,000","280,000 &ndash; 330,000","330,000 &ndash; 380,000"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"bin","title":"Total cases","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[35,42],"lng":[-105,-71]}},"evals":[],"jsHooks":[]}</script>
+<p>The COVID bubble map provides information on the number of total COVID-19 cases from Mar.16th to Oct.16th by states. The larger the bubble size is, the larger the number of the total COVID-19 cases is. As seen in this plot, Illinois, North Carolina, and New Jersey have a relatively greater number of total cases, while Colorado has the smallest number of total cases.</p>
 <p><em>By comparing the two bubble maps, we can see an association between the flights and the number of total COVID-19 cases from Mar.16th to Oct.16th. For the states, such as New Jersey, the percent of baseline for the flights is relatively smaller with more total cases, suggesting that as the number of total cases increases, the impact of COVID-19 brought to the air transportation will also be increased.</em></p>
 </div>
 <div id="regression-analysis" class="section level3">
 <h3>Regression Analysis</h3>
 <pre class="r"><code>Covid_transport_data %&gt;% 
   ggplot(aes(x = percent_of_baseline, y = tot_cases, color = state.x)) + 
-  geom_point(alpha = 0.6) </code></pre>
+  geom_point(alpha = 0.6) +
+  labs(
+    title = &quot;Total Cases VS Airline Amount&quot;,
+    x = &quot;Percent of Baseline&quot;,
+    y = &quot;Total Cases&quot;
+  )</code></pre>
 <p><img src="graphs_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code>regression_tot = lm(tot_cases ~ percent_of_baseline, Covid_transport_data)
-
-
-
 knitr::kable(tidy(regression_tot))</code></pre>
 <table>
 <thead>
@@ -554,18 +556,18 @@ knitr::kable(tidy(regression_tot))</code></pre>
 <td align="right">-25176.148</td>
 <td align="right">6086.44823</td>
 <td align="right">-4.136427</td>
-<td align="right">3.72e-05</td>
+<td align="right">0.0000372</td>
 </tr>
 <tr class="even">
 <td align="left">percent_of_baseline</td>
 <td align="right">1845.606</td>
 <td align="right">90.24531</td>
 <td align="right">20.450995</td>
-<td align="right">0.00e+00</td>
+<td align="right">0.0000000</td>
 </tr>
 </tbody>
 </table>
-<p>There is an positive association in total cases with respect to percent of baseline, the airline amounts for all states, so we do a regression test for each state to see if this positive relation can be applied to every state.</p>
+<p>There is a positive association in total cases with respect to percent of baseline, the airline amount for all states, so we do a regression test for each state to see if this positive relation can be applied to every state.</p>
 <pre class="r"><code>regression_state = Covid_transport_data %&gt;% 
   nest(data = -state.x) %&gt;% 
   mutate(
@@ -576,8 +578,80 @@ knitr::kable(tidy(regression_tot))</code></pre>
   select(-data, -models) %&gt;% 
   unnest(results) %&gt;% 
   filter(str_detect(term, &quot;percent_of_baseline&quot;)) %&gt;% 
-  knitr::kable(digits = 3)</code></pre>
-<p>We can see from the regression table that four states have statistically significant p-values. They demonstrate a tendency that as airlines start to increase, the total cases increase accordingly with a relatively steep slope. In other words, covid-19 cases are positively associated with airline amounts in Colorado, North Carolina, New Jersey, Virginia. For Illinois and Michigan, p-values are not statistically strong, but the estimated slope is positive. However, Massachusetts has a negative slope with large p-value, which indicates that there might be no association in airline amounts and covid-19 cases or there might be stronger factors associated with covid-19 cases.</p>
+  knitr::kable()
+
+regression_state</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">state.x</th>
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CO</td>
+<td align="left">percent_of_baseline</td>
+<td align="right">651.7285</td>
+<td align="right">88.42911</td>
+<td align="right">7.370067</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">IL</td>
+<td align="left">percent_of_baseline</td>
+<td align="right">1348.0381</td>
+<td align="right">635.67225</td>
+<td align="right">2.120650</td>
+<td align="right">0.0351133</td>
+</tr>
+<tr class="odd">
+<td align="left">MA</td>
+<td align="left">percent_of_baseline</td>
+<td align="right">-588.8396</td>
+<td align="right">342.38306</td>
+<td align="right">-1.719827</td>
+<td align="right">0.0869233</td>
+</tr>
+<tr class="even">
+<td align="left">MI</td>
+<td align="left">percent_of_baseline</td>
+<td align="right">102.4457</td>
+<td align="right">326.82936</td>
+<td align="right">0.313453</td>
+<td align="right">0.7542447</td>
+</tr>
+<tr class="odd">
+<td align="left">NC</td>
+<td align="left">percent_of_baseline</td>
+<td align="right">2137.6537</td>
+<td align="right">282.22816</td>
+<td align="right">7.574204</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">NJ</td>
+<td align="left">percent_of_baseline</td>
+<td align="right">2102.5698</td>
+<td align="right">198.23448</td>
+<td align="right">10.606479</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">VA</td>
+<td align="left">percent_of_baseline</td>
+<td align="right">1272.0661</td>
+<td align="right">279.14163</td>
+<td align="right">4.557063</td>
+<td align="right">0.0000088</td>
+</tr>
+</tbody>
+</table>
+<p>We can see from the regression table that four states have statistically significant p-values. They demonstrate a tendency that as airlines start to increase, the total cases increase accordingly with a relatively steep slope. In other words, covid-19 cases are positively associated with airline amount in Colorado, North Carolina, New Jersey, Virginia. For Illinois and Michigan, p-values are not statistically strong, but the estimated slope is positive. However, Massachusetts has a negative slope with large p-value, which indicates that there might be no association in airline amount and covid-19 cases or there might be stronger factors associated with covid-19 cases.</p>
 </div>
 
 
