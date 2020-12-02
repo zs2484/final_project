@@ -103,17 +103,33 @@ Column {data-width=650}
 ### Chart A
 
 ```{r}
-Covid_mobility_data %>%
+cols <- c("transit_change"="#3591d1","retail/recreation"="#62c76b")
+
+
+Transit = Covid_mobility_data %>%
+  group_by(date) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            sum_newcases = sum(new_case),
+            n = n()) 
+
+retail=Covid_mobility_data %>%
   group_by(date) %>%
    filter(!is.na(retail_and_recreation_percent_change_from_baseline)) %>%
   summarise(mean_retail_recreation = mean(retail_and_recreation_percent_change_from_baseline),
              sum_newcases = sum(new_case),
-            n = n()) %>%
-  ggplot(aes(x = date,y = mean_retail_recreation,color="light pink")) +
- geom_point(aes(size=sum_newcases,alpha=0.3))+
- scale_x_date(date_breaks = "1 month")+  
-  labs(titles = "Change in Retial and Recreation After Covid",
-        y = "change in retail and recreation from baseline"  )
+            n = n())
+
+combine = ggplot() +
+  geom_bar(data=Transit, aes(x= date,y = mean_transit,fill="transit_change"),stat="identity")+
+   geom_line(data=retail, aes(x= date,y = mean_retail_recreation,color="retail/recreation"),size = 0.6)+
+  scale_x_date(date_breaks = "1 month",
+               date_labels = '%b%d \n%Y')+   
+  labs(title = "compare retail and recreation change with transit change from baseline",
+       y = "average  Change from Baseline"  )+
+   scale_fill_manual(name="bar",values=cols)
+
+ggplotly(combine)
 ```
 
 Column {data-width=350}
