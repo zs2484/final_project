@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>mobility.utf8</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="introduction.html">Intro to COVID-19</a>
+</li>
+<li>
+  <a href="graphs.html">Air Transportation Impacts</a>
+</li>
+<li>
+  <a href="mobility.html">Mobility Changes</a>
+</li>
+<li>
+  <a href="economics_dashboard.html">Dashboard</a>
+</li>
+<li>
+  <a href="https://github.com/zs2484/final_project.io">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<p><em>Furthermore, we tried to understand how ground transportations (subway, bus, and train) were affected by examining the changes of visits and length of stay at public transport hubs from the baseline (the median value, for the corresponding day of the week, during the 5-week period from Jan 3 to Feb 6, 2020).</em></p>
+<div id="daily-mobility-trends-for-grond-transport-hubs" class="section level3">
+<h3>Daily Mobility Trends for Grond Transport Hubs</h3>
+<pre class="r"><code>#TRY to make plot about the relationship between mean_transit station percent change and date
+Covid_mobility_data %&gt;%
+  group_by(date,state) %&gt;%
+   filter(!is.na(transit_stations_percent_change_from_baseline)) %&gt;%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            mean_newcases = mean(new_case),
+            n = n()) %&gt;%
+  ggplot(aes(x = date,y = mean_transit,color = state)) +
+ geom_line(alpha=0.3) +
+ scale_x_date(date_breaks = &quot;1 month&quot;)</code></pre>
+<p><img src="mobility_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>The graph depicts the average mobility changes in public transport hubs over time. We can see a noticeable drop in mobility from the plot since March for all states and did not completely rebound until the middle of June, which matches the trend of the COVID-19 progress.</p>
+<pre class="r"><code>#Covid_mobility_data %&gt;%
+#  group_by(date,state) %&gt;%
+#   filter(!is.na(transit_stations_percent_change_from_baseline)) %&gt;%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            sum_newcases = sum(new_case),
+#            n = n()) %&gt;%
+#  ggplot(aes(x = date,y = sum_newcases,color = state)) +
+# geom_point(alpha=0.3) +
+# scale_x_date(date_breaks = &quot;1 month&quot;)</code></pre>
+<pre class="r"><code>#Covid_mobility_data %&gt;%
+#  group_by(date,state) %&gt;%
+#   filter(!is.na(transit_stations_percent_change_from_baseline) &amp; new_case &gt;0) #%&gt;%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            sum_newcases = sum(new_case),
+#            n = n()) %&gt;%
+#  ggplot(aes(x = sum_newcases,y = mean_transit,color = state)) +
+# geom_point(alpha=0.3)</code></pre>
+<pre class="r"><code>#Covid_mobility_data %&gt;%
+#  group_by(date,state) %&gt;%
+#   filter(!is.na(transit_stations_percent_change_from_baseline) &amp; new_case &gt;0) #%&gt;%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            sum_tot_cases = sum(tot_cases),
+#            n = n()) %&gt;%
+#  ggplot(aes(x = mean_transit,y = sum_tot_cases,color = state)) +
+# geom_point(alpha=0.3)</code></pre>
+<p><em>Similar to air transportation, we graphed to see the different magnitude of changes by states.</em></p>
+</div>
+<div id="average-mobility-changes-by-states" class="section level3">
+<h3>Average Mobility Changes by States</h3>
+<pre class="r"><code>#use plotly to compare the mean transit among each state
+Covid_mobility_data %&gt;%
+  group_by(state) %&gt;%
+   filter(!is.na(transit_stations_percent_change_from_baseline) &amp; new_case &gt;0) %&gt;%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            n = n()) %&gt;%
+  mutate(state = fct_reorder(state, mean_transit)) %&gt;% 
+   plot_ly(x = ~state, y = ~mean_transit, color = ~state, type = &quot;bar&quot;, colors = &quot;viridis&quot;)</code></pre>
+<div id="htmlwidget-9180fe73774f62ee634a" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9180fe73774f62ee634a">{"x":{"visdat":{"c4302a646dcb":["function () ","plotlyVisDat"]},"cur_data":"c4302a646dcb","attrs":{"c4302a646dcb":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"state","type":"category","categoryorder":"array","categoryarray":["MA","NJ","MD","MN","CT","DE","CO","MI","LA","VA","PA","AZ","NC","ME","IL","OR","WI","UT","MS","AL","TN","KY","KS","SC","WV","OH","IN","MT","OK","SD","ID","WY"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"mean_transit"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["MA"],"y":[-32.6274233345083],"type":"bar","name":"MA","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["NJ"],"y":[-30.6806986117331],"type":"bar","name":"NJ","marker":{"color":"rgba(71,13,96,1)","line":{"color":"rgba(71,13,96,1)"}},"textfont":{"color":"rgba(71,13,96,1)"},"error_y":{"color":"rgba(71,13,96,1)"},"error_x":{"color":"rgba(71,13,96,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["MD"],"y":[-28.3705673758865],"type":"bar","name":"MD","marker":{"color":"rgba(72,25,107,1)","line":{"color":"rgba(72,25,107,1)"}},"textfont":{"color":"rgba(72,25,107,1)"},"error_y":{"color":"rgba(72,25,107,1)"},"error_x":{"color":"rgba(72,25,107,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["MN"],"y":[-28.0613901572806],"type":"bar","name":"MN","marker":{"color":"rgba(72,36,117,1)","line":{"color":"rgba(72,36,117,1)"}},"textfont":{"color":"rgba(72,36,117,1)"},"error_y":{"color":"rgba(72,36,117,1)"},"error_x":{"color":"rgba(72,36,117,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["CT"],"y":[-27.3095416979715],"type":"bar","name":"CT","marker":{"color":"rgba(71,46,124,1)","line":{"color":"rgba(71,46,124,1)"}},"textfont":{"color":"rgba(71,46,124,1)"},"error_y":{"color":"rgba(71,46,124,1)"},"error_x":{"color":"rgba(71,46,124,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["DE"],"y":[-19.3352601156069],"type":"bar","name":"DE","marker":{"color":"rgba(69,56,130,1)","line":{"color":"rgba(69,56,130,1)"}},"textfont":{"color":"rgba(69,56,130,1)"},"error_y":{"color":"rgba(69,56,130,1)"},"error_x":{"color":"rgba(69,56,130,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["CO"],"y":[-18.4142889238373],"type":"bar","name":"CO","marker":{"color":"rgba(66,65,134,1)","line":{"color":"rgba(66,65,134,1)"}},"textfont":{"color":"rgba(66,65,134,1)"},"error_y":{"color":"rgba(66,65,134,1)"},"error_x":{"color":"rgba(66,65,134,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["MI"],"y":[-18.3799237611182],"type":"bar","name":"MI","marker":{"color":"rgba(62,75,138,1)","line":{"color":"rgba(62,75,138,1)"}},"textfont":{"color":"rgba(62,75,138,1)"},"error_y":{"color":"rgba(62,75,138,1)"},"error_x":{"color":"rgba(62,75,138,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["LA"],"y":[-16.6392203659507],"type":"bar","name":"LA","marker":{"color":"rgba(58,84,140,1)","line":{"color":"rgba(58,84,140,1)"}},"textfont":{"color":"rgba(58,84,140,1)"},"error_y":{"color":"rgba(58,84,140,1)"},"error_x":{"color":"rgba(58,84,140,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["VA"],"y":[-16.4799768518519],"type":"bar","name":"VA","marker":{"color":"rgba(54,93,141,1)","line":{"color":"rgba(54,93,141,1)"}},"textfont":{"color":"rgba(54,93,141,1)"},"error_y":{"color":"rgba(54,93,141,1)"},"error_x":{"color":"rgba(54,93,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["PA"],"y":[-16.3671075957998],"type":"bar","name":"PA","marker":{"color":"rgba(50,101,142,1)","line":{"color":"rgba(50,101,142,1)"}},"textfont":{"color":"rgba(50,101,142,1)"},"error_y":{"color":"rgba(50,101,142,1)"},"error_x":{"color":"rgba(50,101,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["AZ"],"y":[-15.0290556900726],"type":"bar","name":"AZ","marker":{"color":"rgba(46,109,142,1)","line":{"color":"rgba(46,109,142,1)"}},"textfont":{"color":"rgba(46,109,142,1)"},"error_y":{"color":"rgba(46,109,142,1)"},"error_x":{"color":"rgba(46,109,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["NC"],"y":[-14.1493475108748],"type":"bar","name":"NC","marker":{"color":"rgba(43,117,142,1)","line":{"color":"rgba(43,117,142,1)"}},"textfont":{"color":"rgba(43,117,142,1)"},"error_y":{"color":"rgba(43,117,142,1)"},"error_x":{"color":"rgba(43,117,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["ME"],"y":[-11.5781071835804],"type":"bar","name":"ME","marker":{"color":"rgba(40,125,142,1)","line":{"color":"rgba(40,125,142,1)"}},"textfont":{"color":"rgba(40,125,142,1)"},"error_y":{"color":"rgba(40,125,142,1)"},"error_x":{"color":"rgba(40,125,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["IL"],"y":[-10.8318175041002],"type":"bar","name":"IL","marker":{"color":"rgba(37,132,142,1)","line":{"color":"rgba(37,132,142,1)"}},"textfont":{"color":"rgba(37,132,142,1)"},"error_y":{"color":"rgba(37,132,142,1)"},"error_x":{"color":"rgba(37,132,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["OR"],"y":[-7.87554904831625],"type":"bar","name":"OR","marker":{"color":"rgba(34,140,141,1)","line":{"color":"rgba(34,140,141,1)"}},"textfont":{"color":"rgba(34,140,141,1)"},"error_y":{"color":"rgba(34,140,141,1)"},"error_x":{"color":"rgba(34,140,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["WI"],"y":[-7.48685540950455],"type":"bar","name":"WI","marker":{"color":"rgba(31,148,140,1)","line":{"color":"rgba(31,148,140,1)"}},"textfont":{"color":"rgba(31,148,140,1)"},"error_y":{"color":"rgba(31,148,140,1)"},"error_x":{"color":"rgba(31,148,140,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["UT"],"y":[-6.47947693425354],"type":"bar","name":"UT","marker":{"color":"rgba(30,156,137,1)","line":{"color":"rgba(30,156,137,1)"}},"textfont":{"color":"rgba(30,156,137,1)"},"error_y":{"color":"rgba(30,156,137,1)"},"error_x":{"color":"rgba(30,156,137,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["MS"],"y":[-6.29245283018868],"type":"bar","name":"MS","marker":{"color":"rgba(32,163,134,1)","line":{"color":"rgba(32,163,134,1)"}},"textfont":{"color":"rgba(32,163,134,1)"},"error_y":{"color":"rgba(32,163,134,1)"},"error_x":{"color":"rgba(32,163,134,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["AL"],"y":[-6.14433463571593],"type":"bar","name":"AL","marker":{"color":"rgba(37,171,130,1)","line":{"color":"rgba(37,171,130,1)"}},"textfont":{"color":"rgba(37,171,130,1)"},"error_y":{"color":"rgba(37,171,130,1)"},"error_x":{"color":"rgba(37,171,130,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["TN"],"y":[-5.46196319018405],"type":"bar","name":"TN","marker":{"color":"rgba(46,179,124,1)","line":{"color":"rgba(46,179,124,1)"}},"textfont":{"color":"rgba(46,179,124,1)"},"error_y":{"color":"rgba(46,179,124,1)"},"error_x":{"color":"rgba(46,179,124,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["KY"],"y":[-4.88641376268196],"type":"bar","name":"KY","marker":{"color":"rgba(57,186,118,1)","line":{"color":"rgba(57,186,118,1)"}},"textfont":{"color":"rgba(57,186,118,1)"},"error_y":{"color":"rgba(57,186,118,1)"},"error_x":{"color":"rgba(57,186,118,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["KS"],"y":[-4.47506172839506],"type":"bar","name":"KS","marker":{"color":"rgba(72,193,110,1)","line":{"color":"rgba(72,193,110,1)"}},"textfont":{"color":"rgba(72,193,110,1)"},"error_y":{"color":"rgba(72,193,110,1)"},"error_x":{"color":"rgba(72,193,110,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["SC"],"y":[-4.44452887537994],"type":"bar","name":"SC","marker":{"color":"rgba(88,199,101,1)","line":{"color":"rgba(88,199,101,1)"}},"textfont":{"color":"rgba(88,199,101,1)"},"error_y":{"color":"rgba(88,199,101,1)"},"error_x":{"color":"rgba(88,199,101,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["WV"],"y":[-2.54464813719692],"type":"bar","name":"WV","marker":{"color":"rgba(106,205,91,1)","line":{"color":"rgba(106,205,91,1)"}},"textfont":{"color":"rgba(106,205,91,1)"},"error_y":{"color":"rgba(106,205,91,1)"},"error_x":{"color":"rgba(106,205,91,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["OH"],"y":[-1.4098552078468],"type":"bar","name":"OH","marker":{"color":"rgba(126,211,79,1)","line":{"color":"rgba(126,211,79,1)"}},"textfont":{"color":"rgba(126,211,79,1)"},"error_y":{"color":"rgba(126,211,79,1)"},"error_x":{"color":"rgba(126,211,79,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["IN"],"y":[-0.296731286260082],"type":"bar","name":"IN","marker":{"color":"rgba(147,215,65,1)","line":{"color":"rgba(147,215,65,1)"}},"textfont":{"color":"rgba(147,215,65,1)"},"error_y":{"color":"rgba(147,215,65,1)"},"error_x":{"color":"rgba(147,215,65,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["MT"],"y":[0.0386235955056181],"type":"bar","name":"MT","marker":{"color":"rgba(168,219,52,1)","line":{"color":"rgba(168,219,52,1)"}},"textfont":{"color":"rgba(168,219,52,1)"},"error_y":{"color":"rgba(168,219,52,1)"},"error_x":{"color":"rgba(168,219,52,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["OK"],"y":[0.29895178197065],"type":"bar","name":"OK","marker":{"color":"rgba(190,223,38,1)","line":{"color":"rgba(190,223,38,1)"}},"textfont":{"color":"rgba(190,223,38,1)"},"error_y":{"color":"rgba(190,223,38,1)"},"error_x":{"color":"rgba(190,223,38,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["SD"],"y":[5.72155287817938],"type":"bar","name":"SD","marker":{"color":"rgba(212,226,26,1)","line":{"color":"rgba(212,226,26,1)"}},"textfont":{"color":"rgba(212,226,26,1)"},"error_y":{"color":"rgba(212,226,26,1)"},"error_x":{"color":"rgba(212,226,26,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["ID"],"y":[8.25039787798408],"type":"bar","name":"ID","marker":{"color":"rgba(233,229,26,1)","line":{"color":"rgba(233,229,26,1)"}},"textfont":{"color":"rgba(233,229,26,1)"},"error_y":{"color":"rgba(233,229,26,1)"},"error_x":{"color":"rgba(233,229,26,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["WY"],"y":[15.2156424581006],"type":"bar","name":"WY","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>This bar plot shows each state’s average mobility change from Feb.15 to Oct.27. The percent changes from baseline for each state are shown along the bars. We can see that most northeastern states, like Massachusetts (MA), New Jersey (NJ) and Maryland (MD) have considerable negative changes, indicating the use of ground transport in these states has decreased dramatically. While some northwestern states, such as Wyoming (WY), South Dakota (SD), and Idaho (ID), seem to have positive changes, referring to an increase in the use of ground transport.</p>
+</div>
+<div id="number-of-total-covid-19-cases-by-states" class="section level3">
+<h3>Number of Total COVID-19 Cases by States</h3>
+<pre class="r"><code>#use plotly to compare the mean transit among each state
+Covid_mobility_data %&gt;%
+  group_by(state) %&gt;%
+   filter(!is.na(transit_stations_percent_change_from_baseline) &amp; new_case &gt;0) %&gt;%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            sum_new_cases = sum(new_case),
+            n = n()) %&gt;%
+  mutate(state = fct_reorder(state, sum_new_cases)) %&gt;% 
+   plot_ly(x = ~state, y = ~sum_new_cases, color = ~state, type = &quot;bar&quot;, colors = &quot;viridis&quot;)</code></pre>
+<div id="htmlwidget-8eb7b20a55f3a1be36da" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8eb7b20a55f3a1be36da">{"x":{"visdat":{"c43026b0db41":["function () ","plotlyVisDat"]},"cur_data":"c43026b0db41","attrs":{"c43026b0db41":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"state","type":"category","categoryorder":"array","categoryarray":["ME","DE","WY","SD","WV","MT","CT","ID","OR","KS","UT","MN","MD","MS","CO","KY","MA","OK","AZ","MI","AL","WI","SC","LA","NJ","IN","PA","VA","TN","NC","OH","IL"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"sum_new_cases"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["ME"],"y":[28434],"type":"bar","name":"ME","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["DE"],"y":[88495],"type":"bar","name":"DE","marker":{"color":"rgba(71,13,96,1)","line":{"color":"rgba(71,13,96,1)"}},"textfont":{"color":"rgba(71,13,96,1)"},"error_y":{"color":"rgba(71,13,96,1)"},"error_x":{"color":"rgba(71,13,96,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["WY"],"y":[99675],"type":"bar","name":"WY","marker":{"color":"rgba(72,25,107,1)","line":{"color":"rgba(72,25,107,1)"}},"textfont":{"color":"rgba(72,25,107,1)"},"error_y":{"color":"rgba(72,25,107,1)"},"error_x":{"color":"rgba(72,25,107,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["SD"],"y":[132151],"type":"bar","name":"SD","marker":{"color":"rgba(72,36,117,1)","line":{"color":"rgba(72,36,117,1)"}},"textfont":{"color":"rgba(72,36,117,1)"},"error_y":{"color":"rgba(72,36,117,1)"},"error_x":{"color":"rgba(72,36,117,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["WV"],"y":[156716],"type":"bar","name":"WV","marker":{"color":"rgba(71,46,124,1)","line":{"color":"rgba(71,46,124,1)"}},"textfont":{"color":"rgba(71,46,124,1)"},"error_y":{"color":"rgba(71,46,124,1)"},"error_x":{"color":"rgba(71,46,124,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["MT"],"y":[221293],"type":"bar","name":"MT","marker":{"color":"rgba(69,56,130,1)","line":{"color":"rgba(69,56,130,1)"}},"textfont":{"color":"rgba(69,56,130,1)"},"error_y":{"color":"rgba(69,56,130,1)"},"error_x":{"color":"rgba(69,56,130,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["CT"],"y":[481074],"type":"bar","name":"CT","marker":{"color":"rgba(66,65,134,1)","line":{"color":"rgba(66,65,134,1)"}},"textfont":{"color":"rgba(66,65,134,1)"},"error_y":{"color":"rgba(66,65,134,1)"},"error_x":{"color":"rgba(66,65,134,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["ID"],"y":[532012],"type":"bar","name":"ID","marker":{"color":"rgba(62,75,138,1)","line":{"color":"rgba(62,75,138,1)"}},"textfont":{"color":"rgba(62,75,138,1)"},"error_y":{"color":"rgba(62,75,138,1)"},"error_x":{"color":"rgba(62,75,138,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["OR"],"y":[748288],"type":"bar","name":"OR","marker":{"color":"rgba(58,84,140,1)","line":{"color":"rgba(58,84,140,1)"}},"textfont":{"color":"rgba(58,84,140,1)"},"error_y":{"color":"rgba(58,84,140,1)"},"error_x":{"color":"rgba(58,84,140,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["KS"],"y":[1004450],"type":"bar","name":"KS","marker":{"color":"rgba(54,93,141,1)","line":{"color":"rgba(54,93,141,1)"}},"textfont":{"color":"rgba(54,93,141,1)"},"error_y":{"color":"rgba(54,93,141,1)"},"error_x":{"color":"rgba(54,93,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["UT"],"y":[1288272],"type":"bar","name":"UT","marker":{"color":"rgba(50,101,142,1)","line":{"color":"rgba(50,101,142,1)"}},"textfont":{"color":"rgba(50,101,142,1)"},"error_y":{"color":"rgba(50,101,142,1)"},"error_x":{"color":"rgba(50,101,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["MN"],"y":[1357807],"type":"bar","name":"MN","marker":{"color":"rgba(46,109,142,1)","line":{"color":"rgba(46,109,142,1)"}},"textfont":{"color":"rgba(46,109,142,1)"},"error_y":{"color":"rgba(46,109,142,1)"},"error_x":{"color":"rgba(46,109,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["MD"],"y":[1829098],"type":"bar","name":"MD","marker":{"color":"rgba(43,117,142,1)","line":{"color":"rgba(43,117,142,1)"}},"textfont":{"color":"rgba(43,117,142,1)"},"error_y":{"color":"rgba(43,117,142,1)"},"error_x":{"color":"rgba(43,117,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["MS"],"y":[1888015],"type":"bar","name":"MS","marker":{"color":"rgba(40,125,142,1)","line":{"color":"rgba(40,125,142,1)"}},"textfont":{"color":"rgba(40,125,142,1)"},"error_y":{"color":"rgba(40,125,142,1)"},"error_x":{"color":"rgba(40,125,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["CO"],"y":[1927114],"type":"bar","name":"CO","marker":{"color":"rgba(37,132,142,1)","line":{"color":"rgba(37,132,142,1)"}},"textfont":{"color":"rgba(37,132,142,1)"},"error_y":{"color":"rgba(37,132,142,1)"},"error_x":{"color":"rgba(37,132,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["KY"],"y":[1948659],"type":"bar","name":"KY","marker":{"color":"rgba(34,140,141,1)","line":{"color":"rgba(34,140,141,1)"}},"textfont":{"color":"rgba(34,140,141,1)"},"error_y":{"color":"rgba(34,140,141,1)"},"error_x":{"color":"rgba(34,140,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["MA"],"y":[2023944],"type":"bar","name":"MA","marker":{"color":"rgba(31,148,140,1)","line":{"color":"rgba(31,148,140,1)"}},"textfont":{"color":"rgba(31,148,140,1)"},"error_y":{"color":"rgba(31,148,140,1)"},"error_x":{"color":"rgba(31,148,140,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["OK"],"y":[2665525],"type":"bar","name":"OK","marker":{"color":"rgba(30,156,137,1)","line":{"color":"rgba(30,156,137,1)"}},"textfont":{"color":"rgba(30,156,137,1)"},"error_y":{"color":"rgba(30,156,137,1)"},"error_x":{"color":"rgba(30,156,137,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["AZ"],"y":[3040585],"type":"bar","name":"AZ","marker":{"color":"rgba(32,163,134,1)","line":{"color":"rgba(32,163,134,1)"}},"textfont":{"color":"rgba(32,163,134,1)"},"error_y":{"color":"rgba(32,163,134,1)"},"error_x":{"color":"rgba(32,163,134,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["MI"],"y":[3287686],"type":"bar","name":"MI","marker":{"color":"rgba(37,171,130,1)","line":{"color":"rgba(37,171,130,1)"}},"textfont":{"color":"rgba(37,171,130,1)"},"error_y":{"color":"rgba(37,171,130,1)"},"error_x":{"color":"rgba(37,171,130,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["AL"],"y":[3495854],"type":"bar","name":"AL","marker":{"color":"rgba(46,179,124,1)","line":{"color":"rgba(46,179,124,1)"}},"textfont":{"color":"rgba(46,179,124,1)"},"error_y":{"color":"rgba(46,179,124,1)"},"error_x":{"color":"rgba(46,179,124,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["WI"],"y":[3659926],"type":"bar","name":"WI","marker":{"color":"rgba(57,186,118,1)","line":{"color":"rgba(57,186,118,1)"}},"textfont":{"color":"rgba(57,186,118,1)"},"error_y":{"color":"rgba(57,186,118,1)"},"error_x":{"color":"rgba(57,186,118,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["SC"],"y":[3760854],"type":"bar","name":"SC","marker":{"color":"rgba(72,193,110,1)","line":{"color":"rgba(72,193,110,1)"}},"textfont":{"color":"rgba(72,193,110,1)"},"error_y":{"color":"rgba(72,193,110,1)"},"error_x":{"color":"rgba(72,193,110,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["LA"],"y":[4407186],"type":"bar","name":"LA","marker":{"color":"rgba(88,199,101,1)","line":{"color":"rgba(88,199,101,1)"}},"textfont":{"color":"rgba(88,199,101,1)"},"error_y":{"color":"rgba(88,199,101,1)"},"error_x":{"color":"rgba(88,199,101,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["NJ"],"y":[4660094],"type":"bar","name":"NJ","marker":{"color":"rgba(106,205,91,1)","line":{"color":"rgba(106,205,91,1)"}},"textfont":{"color":"rgba(106,205,91,1)"},"error_y":{"color":"rgba(106,205,91,1)"},"error_x":{"color":"rgba(106,205,91,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["IN"],"y":[4885026],"type":"bar","name":"IN","marker":{"color":"rgba(126,211,79,1)","line":{"color":"rgba(126,211,79,1)"}},"textfont":{"color":"rgba(126,211,79,1)"},"error_y":{"color":"rgba(126,211,79,1)"},"error_x":{"color":"rgba(126,211,79,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["PA"],"y":[6401289],"type":"bar","name":"PA","marker":{"color":"rgba(147,215,65,1)","line":{"color":"rgba(147,215,65,1)"}},"textfont":{"color":"rgba(147,215,65,1)"},"error_y":{"color":"rgba(147,215,65,1)"},"error_x":{"color":"rgba(147,215,65,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["VA"],"y":[6806860],"type":"bar","name":"VA","marker":{"color":"rgba(168,219,52,1)","line":{"color":"rgba(168,219,52,1)"}},"textfont":{"color":"rgba(168,219,52,1)"},"error_y":{"color":"rgba(168,219,52,1)"},"error_x":{"color":"rgba(168,219,52,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["TN"],"y":[6886221],"type":"bar","name":"TN","marker":{"color":"rgba(190,223,38,1)","line":{"color":"rgba(190,223,38,1)"}},"textfont":{"color":"rgba(190,223,38,1)"},"error_y":{"color":"rgba(190,223,38,1)"},"error_x":{"color":"rgba(190,223,38,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["NC"],"y":[6999790],"type":"bar","name":"NC","marker":{"color":"rgba(212,226,26,1)","line":{"color":"rgba(212,226,26,1)"}},"textfont":{"color":"rgba(212,226,26,1)"},"error_y":{"color":"rgba(212,226,26,1)"},"error_x":{"color":"rgba(212,226,26,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["OH"],"y":[7435124],"type":"bar","name":"OH","marker":{"color":"rgba(233,229,26,1)","line":{"color":"rgba(233,229,26,1)"}},"textfont":{"color":"rgba(233,229,26,1)"},"error_y":{"color":"rgba(233,229,26,1)"},"error_x":{"color":"rgba(233,229,26,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["IL"],"y":[10907330],"type":"bar","name":"IL","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>This bar plot shows the number of total COVID-19 cases from Feb.15 to Oct.27 for each state. The graph shows that Illinois (IL), Ohio (OH), and North Caroline (NC) have the greatest number of total cases. Maine (ME), Delaware (DE), and Wyoming (WY) have the least number of total cases.</p>
+<p><em>By comparing the two graphs, we hypothesized that the total number of cases is a factor in estimating ground transit mobility changes as we can see a significant drop in the use of ground transportation for states with a relatively large number of total cases, such as NJ and Louisiana (LA) and a non-decrease change for states with fewer COVID-19 cases, such as WY and ID. However, we also noticed that though the situation of COVID-19 in some states seems to be more severe than it was in other states, the usage of ground transportation in these states has been decreased less than expected. For example, IL is the state with the greatest number of total cases, but it only has moderate average mobility change among all states.</em></p>
+<p><strong>Does this mean that the association between COVID-19 and ground transportation cannot be extrapolated from one state to another? To answer this question, we took a closer look at the situation in IL and LA.</strong></p>
+</div>
+<div id="il-vs.la" class="section level3">
+<h3>IL vs. LA</h3>
+<pre class="r"><code>#use plotly to compare the mean transit among each state
+#Covid_mobility_data %&gt;%
+#  group_by(state) %&gt;%
+#   filter(!is.na(transit_stations_percent_change_from_baseline) &amp; new_case &gt;0) #%&gt;%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            mean_new_cases = mean(new_case),
+#            n = n()) %&gt;%
+#  mutate(state = fct_reorder(state, mean_new_cases)) %&gt;% 
+#   plot_ly(x = ~state, y = ~mean_new_cases, color = ~state, type = &quot;bar&quot;, colors #= &quot;viridis&quot;)</code></pre>
+<pre class="r"><code>plot_ILCA_MEAN_NEWCASE =
+Covid_mobility_data %&gt;%
+  group_by(date,state) %&gt;%
+   filter(!is.na(transit_stations_percent_change_from_baseline)&amp; state == c(&quot;LA&quot;,&quot;IL&quot;)) %&gt;%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            mean_newcases = mean(new_case),
+            n = n()) %&gt;%
+  ggplot(aes(x = date,y = mean_newcases,color = state)) +
+ geom_point(alpha=0.3) +
+  geom_smooth()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+ 
+ scale_x_date(date_breaks = &quot;1 month&quot;) +
+    facet_wrap(~state)
+
+plot_ILCA_MEAN_NEWCASE</code></pre>
+<p><img src="mobility_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>This panel presents the average mobility change in IL and LA from Feb.15 to Oct.27. Two plots seem to have generally similar trends with an apparent decrease begins from mid-February till mid-April. The trends then start to bounce back, and once it reaches closely to the baseline level it starts to decrease again. The one difference between these two trends is that the second drop in LA is much steeper than in IL.</p>
+<pre class="r"><code>plot_ILCA_MEAN_Transit=
+Covid_mobility_data %&gt;%
+  group_by(date,state) %&gt;%
+   filter(!is.na(transit_stations_percent_change_from_baseline)&amp; state == c(&quot;LA&quot;,&quot;IL&quot;)) %&gt;%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            mean_newcases = mean(new_case),
+            n = n()) %&gt;%
+  ggplot(aes(x = date,y = mean_transit,color = state)) +
+ geom_point(alpha=0.3) +
+  geom_smooth()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+ scale_x_date(date_breaks = &quot;1 month&quot;) +
+    facet_wrap(~state)
+
+plot_ILCA_MEAN_Transit</code></pre>
+<p><img src="mobility_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>This panel shows the daily confirmed case trends in IL and LA from Feb.15 to Oct.27. We see that an overall continuously increasing trend in IL. The trend tends to drop from the middle of May but back to a more rapid increase since July. On the other hand, the increase in LA is relatively gentle, and its growth stopped as it reached its peak in late July.</p>
+<p><em>These plots demonstrate that the trends in daily confirmed cases and mobility changes are quite alike in LA and IL before July, showing evidence that a similar association between COVID-19 and ground transportation exist in IL as well. The primary reason that the decrease in IL’s ground transportation usage is smaller than expected might be that once the daily confirmed cases started decreasing, people started taking public transportation and failed to notice the “second wave” of increased cases.</em></p>
+<pre class="r"><code>#plot_ILCA_MEAN_Transit/plot_ILCA_MEAN_NEWCASE</code></pre>
+<pre class="r"><code>#Covid_mobility_data %&gt;%
+#  group_by(date,state) %&gt;%
+#   filter(!is.na(transit_stations_percent_change_from_baseline)&amp; state == #c(&quot;LA&quot;,&quot;IL&quot;)) %&gt;%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            sum_totalcases = sum(tot_cases),
+#            n = n()) %&gt;%
+#  ggplot(aes(x = date,y = sum_totalcases,color = state)) +
+# geom_point(alpha=0.3) +
+#  geom_smooth()+
+# scale_x_date(date_breaks = &quot;1 month&quot;) +
+#    facet_wrap(~state)</code></pre>
+<pre class="r"><code>##comparing only by date
+#Covid_mobility_data %&gt;%
+#  group_by(date) %&gt;%
+#   filter(!is.na(transit_stations_percent_change_from_baseline)) %&gt;%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            sum_newcases = sum(new_case),
+#            n = n()) %&gt;%
+#  ggplot(aes(x = date,y = sum_newcases,color=&quot;light pink&quot;)) +
+# geom_point(aes(size=mean_transit,alpha=0.3))+
+# scale_x_date(date_breaks = &quot;1 month&quot;)+   
+#  labs(titles = &quot;number of newcases daily&quot;,
+#        y = &quot;New Cases&quot;  )
+#  </code></pre>
+<pre class="r"><code>##comparing only by date
+##TRANSIT
+#Covid_mobility_data %&gt;%
+#  group_by(date) %&gt;%
+#   filter(!is.na(transit_stations_percent_change_from_baseline)) %&gt;%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#             sum_newcases = sum(new_case),
+#            n = n()) %&gt;%
+#  ggplot(aes(x = date,y = mean_transit,color=&quot;light pink&quot;)) +
+# geom_point(aes(size=sum_newcases,alpha=0.3))+
+# scale_x_date(date_breaks = &quot;1 month&quot;)+
+#    labs(titles = &quot;change in transit after covid&quot;,
+#        y = &quot;change in transit from baseline&quot;  )</code></pre>
+<p><strong>Economics</strong></p>
+</div>
+<div id="mobility-trends-for-retail-recreation" class="section level3">
+<h3>Mobility Trends for Retail &amp; Recreation</h3>
+<pre class="r"><code>Covid_mobility_data %&gt;%
+  group_by(date) %&gt;%
+   filter(!is.na(retail_and_recreation_percent_change_from_baseline)) %&gt;%
+  summarise(mean_retail_recreation = mean(retail_and_recreation_percent_change_from_baseline),
+             sum_newcases = sum(new_case),
+            n = n()) %&gt;%
+  ggplot(aes(x = date,y = mean_retail_recreation,color=&quot;light pink&quot;)) +
+ geom_point(aes(size=sum_newcases,alpha=0.3))+
+ scale_x_date(date_breaks = &quot;1 month&quot;)+  
+  labs(titles = &quot;change in retial and recreation after covid&quot;,
+        y = &quot;change in retail and recreation from baseline&quot;  )</code></pre>
+<p><img src="mobility_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>The plot shows the mobility trends for places like restaurants, cafes, shopping centers, theme parks, museums, libraries, and movie theatres from Feb.15 to Oct.27. The difference compared to baseline is shown by the y-axis. The plot shows a significant decrease in the percent of baseline from the beginning of March until April. Then, the trend starts bouncing back and reaches an average level in July.</p>
+</div>
+<div id="monthly-personal-consumption-expenditures-in-billion-from-2018-2020" class="section level3">
+<h3>Monthly Personal Consumption Expenditures (in Billion) from 2018-2020</h3>
+<pre class="r"><code>personal_consumption_df = 
+  read_csv(&quot;./data/personal_consumption.csv&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(date = fred_graph_observations, 
+         personal_consumption = x2) %&gt;% 
+  select(date, personal_consumption) %&gt;% 
+  slice(719:752) %&gt;% 
+  mutate(personal_consumption = as.double(personal_consumption),
+         personal_consumption = round(personal_consumption, digits = 1))
+  
+  
+personal_consumption_df %&gt;% 
+  ggplot(aes(x = date, y = personal_consumption))+
+  geom_point(color = &#39;blue&#39;)+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(x = &quot;Date&quot;, y = &quot;Personal Consumption Expenditure (in Billion)&quot;)</code></pre>
+<p><img src="mobility_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>As the title states, this plot presents the monthly personal consumption expenditures (in billions) over time from 2018 to 2020. We can observe a severe drop in March, April and May 2020, which corresponds to the progression of COVID-19.</p>
+</div>
+<div id="monthly-unemployment-rate-percentage-from-2018-2020" class="section level3">
+<h3>Monthly Unemployment Rate Percentage from 2018-2020</h3>
+<pre class="r"><code>unemployment_df = 
+  read_csv(&quot;./data/unemployment_rate.csv&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(date = fred_graph_observations, 
+         unemployment_rate = x2) %&gt;% 
+  select(date, unemployment_rate) %&gt;% 
+  slice(851:884)
+  
+  
+unemployment_df %&gt;% 
+  ggplot(aes(x = fct_inorder(unemployment_rate), y = date))+
+  geom_point(color = &#39;blue&#39;)+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(x = &quot;Unemployment Rate&quot;, y = &quot;Date&quot;)+
+  coord_flip()</code></pre>
+<p><img src="mobility_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>Despite the overall increasing trend, we can see an even rapid increase in unemployment rate since March 2020.</p>
+<pre class="r"><code>#Covid_mobility_data %&gt;%
+#  group_by(date) %&gt;%
+#   filter(!is.na(residential_percent_change_from_baseline)) %&gt;%
+#  summarise(mean_residential = mean(residential_percent_change_from_baseline),
+#             sum_newcases = sum(new_case),
+#            n = n()) %&gt;%
+#  ggplot(aes(x = date,y = mean_residential,color=&quot;light pink&quot;)) +
+# geom_point(aes(size=sum_newcases,alpha=0.3))+
+# scale_x_date(date_breaks = &quot;1 month&quot;)+  
+#  labs(titles = &quot;change in retial and recreation after covid&quot;,
+#        y = &quot;change in retail and recreation from baseline&quot;  )
+#  </code></pre>
+<pre class="r"><code>##comparing only by state
+#Covid_mobility_data %&gt;%
+#  group_by(state) %&gt;%
+#   filter(!is.na(transit_stations_percent_change_from_baseline)) %&gt;%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            mean_newcases = mean(new_case),
+#            n = n()) </code></pre>
+<pre class="r"><code>#mean_Covid_mobility_data =
+#  Covid_mobility_data %&gt;%
+#  group_by(state) %&gt;%
+#   filter(!is.na(transit_stations_percent_change_from_baseline)) %&gt;%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            mean_newcases = mean(new_case),
+#            n = n()) </code></pre>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

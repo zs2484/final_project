@@ -1,0 +1,389 @@
+---
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+```{r, include = FALSE}
+library(tidyverse)
+library(plotly)
+library(lubridate)
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(dplyr)
+library(ggridges)
+library(usdata)
+library(usmap)
+library(ggplot2)
+library(patchwork)
+library(plotly)
+library(leaflet)
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE
+)
+
+theme_set(theme_bw() + 
+          theme(legend.position = "bottom",
+                legend.title = element_blank(),
+                plot.title = element_text(hjust = 0.5, size = 15),
+                plot.subtitle = element_text(hjust = 0.5, size = 12)))
+```
+
+
+*Furthermore, we tried to understand how ground transportations (subway, bus, and train) were affected by examining the changes of visits and length of stay at public transport hubs from the baseline (the median value, for the corresponding day of the week, during the 5-week period from Jan 3 to Feb 6, 2020).*
+
+
+```{r, include = FALSE}
+Mobility = 
+   read_csv("./data/2020_US_Region_Mobility_Report.csv" ) %>%
+  janitor::clean_names() %>%
+   separate(date, c("year","month","day"), sep = "([-])") %>%
+  mutate(
+    state = state2abbr(sub_region_1),
+  date = paste(month,day,year,sep = "/"))  %>%
+   select(-metro_area,-country_region_code,-day,-month,-year) %>%
+  filter(!is.na(sub_region_1))
+
+Mobility_clean = 
+Mobility %>%
+  mutate(date = fct_inorder(date),
+         date = as.Date(date, "%m/%d/%y")) %>%
+  select(-iso_3166_2_code,-country_region,-census_fips_code,-sub_region_2,-sub_region_1) %>%
+  relocate(date,state) 
+
+Covid_clean =
+Covid %>%
+  mutate(date = fct_inorder(date),
+         date = as.Date(date, "%m/%d/%y")) %>%
+  select(-conf_cases,-prob_cases,-pnew_case,-conf_death,-prob_death,-pnew_death)
+
+Covid_mobility_data=
+  left_join( Covid_clean,Mobility_clean, by = c("date")) %>% #left join two data, by date
+  filter(state.x==state.y) %>%
+  mutate(state=state.x) %>%
+  select(-state.x,-state.y)
+
+rm(Covid)
+rm(Mobility)
+rm(Mobility_clean)
+rm(Covid_clean)
+
+#There seems to be multiple date for each date and state, try to take mean of it 
+Covid_mobility_data %>%
+  group_by(date,state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            mean_newcases = mean(new_case),
+            n = n()) 
+```
+
+### Daily Mobility Trends for Grond Transport Hubs
+
+```{r, message = FALSE, warning = FALSE}
+#TRY to make plot about the relationship between mean_transit station percent change and date
+Covid_mobility_data %>%
+  group_by(date,state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            mean_newcases = mean(new_case),
+            n = n()) %>%
+  ggplot(aes(x = date,y = mean_transit,color = state)) +
+ geom_line(alpha=0.3) +
+ scale_x_date(date_breaks = "1 month")
+```
+
+The graph depicts the average mobility changes in public transport hubs over time. We can see a noticeable drop in mobility from the plot since March for all states and did not completely rebound until the middle of June, which matches the trend of the COVID-19 progress. 
+
+```{r, message = FALSE, warning = FALSE}
+#Covid_mobility_data %>%
+#  group_by(date,state) %>%
+#   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            sum_newcases = sum(new_case),
+#            n = n()) %>%
+#  ggplot(aes(x = date,y = sum_newcases,color = state)) +
+# geom_point(alpha=0.3) +
+# scale_x_date(date_breaks = "1 month")
+```
+
+```{r, message = FALSE, warning = FALSE}
+#Covid_mobility_data %>%
+#  group_by(date,state) %>%
+#   filter(!is.na(transit_stations_percent_change_from_baseline) & new_case >0) #%>%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            sum_newcases = sum(new_case),
+#            n = n()) %>%
+#  ggplot(aes(x = sum_newcases,y = mean_transit,color = state)) +
+# geom_point(alpha=0.3)
+```
+
+```{r, message = FALSE, warning = FALSE}
+#Covid_mobility_data %>%
+#  group_by(date,state) %>%
+#   filter(!is.na(transit_stations_percent_change_from_baseline) & new_case >0) #%>%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            sum_tot_cases = sum(tot_cases),
+#            n = n()) %>%
+#  ggplot(aes(x = mean_transit,y = sum_tot_cases,color = state)) +
+# geom_point(alpha=0.3)
+```
+
+*Similar to air transportation, we graphed to see the different magnitude of changes by states.*
+
+### Average Mobility Changes by States
+
+```{r, message = FALSE, warning = FALSE}
+#use plotly to compare the mean transit among each state
+Covid_mobility_data %>%
+  group_by(state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline) & new_case >0) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            n = n()) %>%
+  mutate(state = fct_reorder(state, mean_transit)) %>% 
+   plot_ly(x = ~state, y = ~mean_transit, color = ~state, type = "bar", colors = "viridis")
+```
+
+This bar plot shows each state's average mobility change from Feb.15 to Oct.27. The percent changes from baseline for each state are shown along the bars. We can see that most northeastern states, like Massachusetts (MA), New Jersey (NJ) and Maryland (MD) have considerable negative changes, indicating the use of ground transport in these states has decreased dramatically. While some northwestern states, such as Wyoming (WY), South Dakota (SD), and Idaho (ID), seem to have positive changes, referring to an increase in the use of ground transport.
+
+### Number of Total COVID-19 Cases by States
+
+```{r, message = FALSE, warning = FALSE}
+#use plotly to compare the mean transit among each state
+Covid_mobility_data %>%
+  group_by(state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline) & new_case >0) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            sum_new_cases = sum(new_case),
+            n = n()) %>%
+  mutate(state = fct_reorder(state, sum_new_cases)) %>% 
+   plot_ly(x = ~state, y = ~sum_new_cases, color = ~state, type = "bar", colors = "viridis")
+```
+
+This bar plot shows the number of total COVID-19 cases from Feb.15 to Oct.27 for each state. The graph shows that Illinois (IL), Ohio (OH), and North Caroline (NC) have the greatest number of total cases. Maine (ME), Delaware (DE), and Wyoming (WY) have the least number of total cases. 
+
+*By comparing the two graphs, we hypothesized that the total number of cases is a factor in estimating ground transit mobility changes as we can see a significant drop in the use of ground transportation for states with a relatively large number of total cases, such as NJ and Louisiana (LA) and a non-decrease change for states with fewer COVID-19 cases, such as WY and ID. However, we also noticed that though the situation of COVID-19 in some states seems to be more severe than it was in other states, the usage of ground transportation in these states has been decreased less than expected. For example, IL is the state with the greatest number of total cases, but it only has moderate average mobility change among all states.*
+
+**Does this mean that the association between COVID-19 and ground transportation cannot be extrapolated from one state to another? To answer this question, we took a closer look at the situation in IL and LA.**
+
+### IL vs. LA
+
+```{r, message = FALSE, warning = FALSE}
+#use plotly to compare the mean transit among each state
+#Covid_mobility_data %>%
+#  group_by(state) %>%
+#   filter(!is.na(transit_stations_percent_change_from_baseline) & new_case >0) #%>%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            mean_new_cases = mean(new_case),
+#            n = n()) %>%
+#  mutate(state = fct_reorder(state, mean_new_cases)) %>% 
+#   plot_ly(x = ~state, y = ~mean_new_cases, color = ~state, type = "bar", colors #= "viridis")
+```
+
+```{r, message = FALSE, warning = FALSE}
+plot_ILCA_MEAN_NEWCASE =
+Covid_mobility_data %>%
+  group_by(date,state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)& state == c("LA","IL")) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            mean_newcases = mean(new_case),
+            n = n()) %>%
+  ggplot(aes(x = date,y = mean_newcases,color = state)) +
+ geom_point(alpha=0.3) +
+  geom_smooth()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+ 
+ scale_x_date(date_breaks = "1 month") +
+    facet_wrap(~state)
+
+plot_ILCA_MEAN_NEWCASE
+```
+
+This panel presents the average mobility change in IL and LA from Feb.15 to Oct.27. Two plots seem to have generally similar trends with an apparent decrease begins from mid-February till mid-April. The trends then start to bounce back, and once it reaches closely to the baseline level it starts to decrease again. The one difference between these two trends is that the second drop in LA is much steeper than in IL.
+
+```{r, message = FALSE, warning = FALSE}
+plot_ILCA_MEAN_Transit=
+Covid_mobility_data %>%
+  group_by(date,state) %>%
+   filter(!is.na(transit_stations_percent_change_from_baseline)& state == c("LA","IL")) %>%
+  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+            mean_newcases = mean(new_case),
+            n = n()) %>%
+  ggplot(aes(x = date,y = mean_transit,color = state)) +
+ geom_point(alpha=0.3) +
+  geom_smooth()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+ scale_x_date(date_breaks = "1 month") +
+    facet_wrap(~state)
+
+plot_ILCA_MEAN_Transit
+```
+
+This panel shows the daily confirmed case trends in IL and LA from Feb.15 to Oct.27. We see that an overall continuously increasing trend in IL. The trend tends to drop from the middle of May but back to a more rapid increase since July. On the other hand, the increase in LA is relatively gentle, and its growth stopped as it reached its peak in late July.
+
+*These plots demonstrate that the trends in daily confirmed cases and mobility changes are quite alike in LA and IL before July, showing evidence that a similar association between COVID-19 and ground transportation exist in IL as well. The primary reason that the decrease in IL's ground transportation usage is smaller than expected might be that once the daily confirmed cases started decreasing, people started taking public transportation and failed to notice the “second wave” of increased cases.*
+
+```{r, message = FALSE, warning = FALSE}
+#plot_ILCA_MEAN_Transit/plot_ILCA_MEAN_NEWCASE
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+#Covid_mobility_data %>%
+#  group_by(date,state) %>%
+#   filter(!is.na(transit_stations_percent_change_from_baseline)& state == #c("LA","IL")) %>%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            sum_totalcases = sum(tot_cases),
+#            n = n()) %>%
+#  ggplot(aes(x = date,y = sum_totalcases,color = state)) +
+# geom_point(alpha=0.3) +
+#  geom_smooth()+
+# scale_x_date(date_breaks = "1 month") +
+#    facet_wrap(~state)
+```
+
+```{r, message = FALSE, warning = FALSE}
+##comparing only by date
+#Covid_mobility_data %>%
+#  group_by(date) %>%
+#   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            sum_newcases = sum(new_case),
+#            n = n()) %>%
+#  ggplot(aes(x = date,y = sum_newcases,color="light pink")) +
+# geom_point(aes(size=mean_transit,alpha=0.3))+
+# scale_x_date(date_breaks = "1 month")+   
+#  labs(titles = "number of newcases daily",
+#        y = "New Cases"  )
+#  
+```
+
+```{r, message = FALSE, warning = FALSE}
+##comparing only by date
+##TRANSIT
+#Covid_mobility_data %>%
+#  group_by(date) %>%
+#   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#             sum_newcases = sum(new_case),
+#            n = n()) %>%
+#  ggplot(aes(x = date,y = mean_transit,color="light pink")) +
+# geom_point(aes(size=sum_newcases,alpha=0.3))+
+# scale_x_date(date_breaks = "1 month")+
+#    labs(titles = "change in transit after covid",
+#        y = "change in transit from baseline"  )
+```
+
+**Economics**
+
+### Mobility Trends for Retail & Recreation
+
+```{r, message = FALSE, warning = FALSE}
+Covid_mobility_data %>%
+  group_by(date) %>%
+   filter(!is.na(retail_and_recreation_percent_change_from_baseline)) %>%
+  summarise(mean_retail_recreation = mean(retail_and_recreation_percent_change_from_baseline),
+             sum_newcases = sum(new_case),
+            n = n()) %>%
+  ggplot(aes(x = date,y = mean_retail_recreation,color="light pink")) +
+ geom_point(aes(size=sum_newcases,alpha=0.3))+
+ scale_x_date(date_breaks = "1 month")+  
+  labs(titles = "change in retial and recreation after covid",
+        y = "change in retail and recreation from baseline"  )
+  
+```
+
+The plot shows the mobility trends for places like restaurants, cafes, shopping centers, theme parks, museums, libraries, and movie theatres from Feb.15 to Oct.27. The difference compared to baseline is shown by the y-axis. The plot shows a significant decrease in the percent of baseline from the beginning of March until April. Then, the trend starts bouncing back and reaches an average level in July.
+
+### Monthly Personal Consumption Expenditures (in Billion) from 2018-2020
+
+```{r, message = FALSE, warning = FALSE}
+personal_consumption_df = 
+  read_csv("./data/personal_consumption.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(date = fred_graph_observations, 
+         personal_consumption = x2) %>% 
+  select(date, personal_consumption) %>% 
+  slice(719:752) %>% 
+  mutate(personal_consumption = as.double(personal_consumption),
+         personal_consumption = round(personal_consumption, digits = 1))
+  
+  
+personal_consumption_df %>% 
+  ggplot(aes(x = date, y = personal_consumption))+
+  geom_point(color = 'blue')+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(x = "Date", y = "Personal Consumption Expenditure (in Billion)")
+```
+
+As the title states, this plot presents the monthly personal consumption expenditures (in billions) over time from 2018 to 2020. We can observe a severe drop in March, April and May 2020, which corresponds to the progression of COVID-19.
+
+### Monthly Unemployment Rate Percentage from 2018-2020
+
+```{r, message = FALSE, warning = FALSE}
+unemployment_df = 
+  read_csv("./data/unemployment_rate.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(date = fred_graph_observations, 
+         unemployment_rate = x2) %>% 
+  select(date, unemployment_rate) %>% 
+  slice(851:884)
+  
+  
+unemployment_df %>% 
+  ggplot(aes(x = fct_inorder(unemployment_rate), y = date))+
+  geom_point(color = 'blue')+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(x = "Unemployment Rate", y = "Date")+
+  coord_flip()
+```
+
+Despite the overall increasing trend, we can see an even rapid increase in unemployment rate since March 2020.
+
+
+```{r, message = FALSE, warning = FALSE}
+#Covid_mobility_data %>%
+#  group_by(date) %>%
+#   filter(!is.na(residential_percent_change_from_baseline)) %>%
+#  summarise(mean_residential = mean(residential_percent_change_from_baseline),
+#             sum_newcases = sum(new_case),
+#            n = n()) %>%
+#  ggplot(aes(x = date,y = mean_residential,color="light pink")) +
+# geom_point(aes(size=sum_newcases,alpha=0.3))+
+# scale_x_date(date_breaks = "1 month")+  
+#  labs(titles = "change in retial and recreation after covid",
+#        y = "change in retail and recreation from baseline"  )
+#  
+```
+
+```{r, message = FALSE, warning = FALSE}
+##comparing only by state
+#Covid_mobility_data %>%
+#  group_by(state) %>%
+#   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            mean_newcases = mean(new_case),
+#            n = n()) 
+```
+
+
+```{r, message = FALSE, warning = FALSE}
+#mean_Covid_mobility_data =
+#  Covid_mobility_data %>%
+#  group_by(state) %>%
+#   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
+#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
+#            mean_newcases = mean(new_case),
+#            n = n()) 
+```
+
+
+
+
+
+
+
+

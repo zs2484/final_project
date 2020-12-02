@@ -3,14 +3,16 @@ output_dir: "."
 navbar:
   title: "Home"
   right:
-    - text: "Graphs"
+    - text: "Intro to COVID-19"
+      href: introduction.html
+    - text: "Air Transportation Impacts"
       href: graphs.html
-    - text: "Economics Dashboard"
+    - text: "Mobility Changes"
+      href: mobility.html
+    - text: "Dashboard"
       href: economics_dashboard.html
-    - icon: fa-envelope fa-lg
-      href: mailto:<zs2484@cumc.columbia.edu>
     - icon: fa-github fa-lg
-      href: http://github.com/zs2484/
+      href: https://github.com/zs2484/final_project.io
 output:
   html_document:
     theme: flatly

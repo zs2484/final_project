@@ -11,7 +11,7 @@
 
 
 
-<title>Covid-19 Transportation Impacts</title>
+<title>index.utf8</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,9 +19,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -262,69 +259,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -332,16 +266,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -362,19 +286,19 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="graphs.html">Graphs</a>
+  <a href="introduction.html">Intro to COVID-19</a>
 </li>
 <li>
-  <a href="economics_dashboard.html">Economics Dashboard</a>
+  <a href="graphs.html">Air Transportation Impacts</a>
 </li>
 <li>
-  <a href="mailto:&lt;zs2484@cumc.columbia.edu&gt;">
-    <span class="fa fa-envelope fa-lg"></span>
-     
-  </a>
+  <a href="mobility.html">Mobility Changes</a>
 </li>
 <li>
-  <a href="http://github.com/zs2484/">
+  <a href="economics_dashboard.html">Dashboard</a>
+</li>
+<li>
+  <a href="https://github.com/zs2484/final_project.io">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -388,20 +312,42 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Covid-19 Transportation Impacts</h1>
+<h1 class="title toc-ignore"><center>
+Covid-19 and Personal Spaces</h1>
 
 </div>
 
 
+<p><h8 style="text-align: center;" markdown="1">By: Hanyu Lu(hl3439) | Jiaying Ning(jn2761) | Yiyao LI(yl4605) | Yue Liu(yl4607) | Zichen Shu(zs2484) </h8></p>
 <center>
 <img src="images/homepage.jpeg" width="500" />
 </center>
 <p><br></p>
-
-
-
+<div id="motivation" class="section level3">
+<h3>Motivation</h3>
+<p>As a major public health crisis once in a century, the impact of the COVID-19 epidemic is far beyond people’s expectations. It has turned daily life in the United States upside down. States has declared a national emergency in March, large gatherings were cancelled, mandates to stay home. In this project, we explored the relationship between transit/mobility and covid-19 infectiousness, and examined current effects of coronavirus with respect to economics and lifestyle.</p>
+<p> </p>
 </div>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p>The dataset we used for our project includes the daily new cases and deaths trend data of COVID-19 in the United States made by Centers for Disease Control and Prevention. It can be assessed at <a href="https://covid.cdc.gov/covid-data-tracker/#trends_dailytrendscases" class="uri">https://covid.cdc.gov/covid-data-tracker/#trends_dailytrendscases</a>. Our mobility data can be assessed at <a href="https://www.google.com/covid19/mobility/" class="uri">https://www.google.com/covid19/mobility/</a>. The air traffic data is from Kaggle, <a href="https://www.kaggle.com/terenceshin/covid19s-impact-on-airport-traffic" class="uri">https://www.kaggle.com/terenceshin/covid19s-impact-on-airport-traffic</a>.</p>
+<p> </p>
 </div>
+<div id="findings" class="section level3">
+<h3>Findings</h3>
+<p>There’s no doubt that the transmission of covid-19 makes year 2020 hard for nearly everyone. We can find the spread is so rapid and massive, while it also caused numerous deaths from the related plots. Since the virus needs close contact to get people infectious, we hold that transportation and mobility play an important role in the covid-19 spread. We got transit data and new cases data grouped by states from Kaggle to explore the probable relationship of transit/mobility and infectiousness. The plots shows a general tendency that the states whose total cases are more have less ground transportation, which means the relationship may be negative between transit/mobility and infectiousness. We hypothesize that in the states whose infectiousness is severe, the policies are more strict and more people choose to stay at home.</p>
+<p>Besides, we are curious about why the total cases would increase rapidly after there is an obvious drop, which means the prevention measures have been taken. We choose two states and make a comparison considering the transit to find the answer. The trends in daily confirmed cases and mobility changes are quite alike in LA and IL before July. The primary reason that the decrease in IL’s ground transportation usage is smaller than expected might be that once the daily confirmed cases started decreasing, people started taking public transportation and failed to notice the “second wave” of increased cases.</p>
+<p>With the direct uncertainty, the need and the supply in the market have decreased at a rapid speed. Since there are some policies about quarantine, factories, restaurants, bars and so many other service industry had to be closed. In the short period, shutdown makes the interest of factories reduce obviously, and they may choose to fire some workers to survive. What’s more, because of policies and regulations about prevention of covid-19, some recreation places making people get together have to be closed, such as bars, restaurants, cinemas and so on, which means there would be less job opportunities and less consumptions. And the plot about unemployment rate demonstrates there are less and less jobs in the market. Since the income becomes unstable in this special period, people started to save money and change their consumption habits, which also cause a reduction in general personal consumption. We can see the PCE (personal consumptions expenditure) obviously drop down in March and April. As for the reason why there is an increasement in PCE from May to October, we suppose that is because of the $ 2.2 trillion stimulus bill. The plot about retail and recreation also shows a similar trend like PCE, which testifies our thoughts.</p>
+<p>Apart from economics, what covid-19 affects us most is lifestyle. More and more people are allowed or required to work from home in order to prevent infectiousness. The plot about work place shows this change. Besides, the data shows that there are less and less hotel booking and airline transportation. The bubble chart shows that as the number of total cases increases, the impact of COVID-19 brought to the air transportation will also be increased. We can infer that people prefer to stay at home rather than traveling. Tourism industry has suffered a lot in this special time period. Due to the policies and regulations related to covid-19, the majority of people tend to finish as much stuff as possible in their house rather than go to various public spaces. That’s probably a reason why the mobility decreased so much.</p>
+<p> </p>
+</div>
+<div id="conclusion" class="section level3">
+<h3>Conclusion</h3>
+<p>From the plots shown in our website, we can conclude that transit/mobility and the covid-19 spread influence each other and there is a negative contact between them. Covid-19 did harm to the economics, since there is an obviously continue increasement in unemployment rate, while the PCE is continuously decrease in this period. And our lifestyles changed a lot because of covid-19, shown in several aspects: hotel booking, air transportation, retail data and so on. PCE and mobility plots also attest that.</p>
+</div>
+
+
+
 
 </div>
 
@@ -434,32 +380,6 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

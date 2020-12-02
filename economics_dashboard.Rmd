@@ -112,7 +112,7 @@ Covid_mobility_data %>%
   ggplot(aes(x = date,y = mean_retail_recreation,color="light pink")) +
  geom_point(aes(size=sum_newcases,alpha=0.3))+
  scale_x_date(date_breaks = "1 month")+  
-  labs(titles = "change in retial and recreation after covid",
+  labs(titles = "Change in Retial and Recreation After Covid",
         y = "change in retail and recreation from baseline"  )
 ```
 
@@ -126,17 +126,20 @@ personal_consumption_df %>%
   ggplot(aes(x = date, y = personal_consumption))+
   geom_point(color = 'blue')+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-  labs(x = "Date", y = "Personal Consumption Expenditure (in Billion)")
+  labs(x = "Date", y = "Personal Consumption Expenditure (in Billion)")+
+  ggtitle("Personal Consumption Expenditures from 2018-2020")
 ```
 
 ### Chart C
 
 ```{r}
 unemployment_df %>% 
-  ggplot(aes(x = date, y = unemployment_rate))+
+  ggplot(aes(x = fct_inorder(unemployment_rate), y = date))+
   geom_point(color = 'blue')+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-  labs(x = "Date", y = "Unemployment Rate")
+  labs(x = "Unemployment Rate", y = "Date")+
+  coord_flip()+
+  ggtitle("Monthly Unemployment Rate from 2018-2020")
 ```
 
 
