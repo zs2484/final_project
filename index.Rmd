@@ -13,6 +13,15 @@ output:
 
 <br>
 
+### Screencast Introduction
+
+<center>
+
+<iframe width="700" height="500" src="http://player.bilibili.com/player.html?aid=203024454&bvid=BV1ha411F7df&cid=263110383&page=1"  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+
+<br>
+
+
 ### Motivation
 
 As a major public health crisis once in a century, the impact of the COVID-19 epidemic is far beyond people's expectations. It has turned daily life in the United States upside down. States has declared a national emergency in March, large gatherings were cancelled, mandates to stay home. In this project, we explored the relationship between transit/mobility and covid-19 infectiousness, and examined current effects of coronavirus with respect to economics and lifestyle.
