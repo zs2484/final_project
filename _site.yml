@@ -15,4 +15,4 @@ navbar:
       href: https://github.com/zs2484/final_project.io
 output:
   html_document:
-    theme: flatly
+    theme: journal

@@ -38,9 +38,9 @@ options(scipen = 999)
 ```
 
 
-**After determining that the outbreak of COVID-19 took place in mid-March and still has not been under full control, we can start analyzing data within this time frame.**
+**After determining that the outbreak of COVID-19 took place in mid-March and is still not under full control, we can start analyzing data within this time frame.**
 
-*Firstly, we mapped two bubble maps to see how air transportation is affected by comparing the flight amount since the middle of March with the number of total COVID-19 cases by states. Percent of baseline is the amount of flight compared to the baseline flight amount,  which makes the data easier to understand and compare.*
+*Firstly, we mapped two bubble maps to see the association between the flight amount since the middle of March and the number of total COVID-19 cases by states. Percent of baseline is the amount of flight compared to the baseline flight amount,  which makes the data easier to understand and compare.*
 
 
 ```{r , message = FALSE, warning = FALSE}

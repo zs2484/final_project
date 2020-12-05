@@ -89,7 +89,7 @@ Covid_mobility_data %>%
             n = n()) 
 ```
 
-### Daily Mobility Trends for Grond Transport Hubs
+### Daily Mobility Trends for Ground Transport Hubs
 
 ```{r, message = FALSE, warning = FALSE}
 #TRY to make plot about the relationship between mean_transit station percent change and date
@@ -111,39 +111,6 @@ ggplotly(Mean_Transit_Plot)
 
 The graph depicts the average mobility changes in public transport hubs over time. We can see a noticeable drop in mobility from the plot since March for all states and did not completely rebound until the middle of June, which matches the trend of the COVID-19 progress. 
 
-```{r, message = FALSE, warning = FALSE}
-#Covid_mobility_data %>%
-#  group_by(date,state) %>%
-#   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
-#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
-#            sum_newcases = sum(new_case),
-#            n = n()) %>%
-#  ggplot(aes(x = date,y = sum_newcases,color = state)) +
-# geom_point(alpha=0.3) +
-# scale_x_date(date_breaks = "1 month")
-```
-
-```{r, message = FALSE, warning = FALSE}
-#Covid_mobility_data %>%
-#  group_by(date,state) %>%
-#   filter(!is.na(transit_stations_percent_change_from_baseline) & new_case >0) #%>%
-#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
-#            sum_newcases = sum(new_case),
-#            n = n()) %>%
-#  ggplot(aes(x = sum_newcases,y = mean_transit,color = state)) +
-# geom_point(alpha=0.3)
-```
-
-```{r, message = FALSE, warning = FALSE}
-#Covid_mobility_data %>%
-#  group_by(date,state) %>%
-#   filter(!is.na(transit_stations_percent_change_from_baseline) & new_case >0) #%>%
-#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
-#            sum_tot_cases = sum(tot_cases),
-#            n = n()) %>%
-#  ggplot(aes(x = mean_transit,y = sum_tot_cases,color = state)) +
-# geom_point(alpha=0.3)
-```
 
 *Similar to air transportation, we graphed to see the different magnitude of changes by states.*
 
@@ -183,18 +150,6 @@ This bar plot shows the number of total COVID-19 cases from Feb.15 to Oct.27 for
 **Does this mean that the association between COVID-19 and ground transportation cannot be extrapolated from one state to another? To answer this question, we took a closer look at the situation in IL and LA.**
 
 ### IL vs. LA
-
-```{r, message = FALSE, warning = FALSE}
-#use plotly to compare the mean transit among each state
-#Covid_mobility_data %>%
-#  group_by(state) %>%
-#   filter(!is.na(transit_stations_percent_change_from_baseline) & new_case >0) #%>%
-#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
-#            mean_new_cases = mean(new_case),
-#            n = n()) %>%
-#  mutate(state = fct_reorder(state, mean_new_cases)) %>% 
-#   plot_ly(x = ~state, y = ~mean_new_cases, color = ~state, type = "bar", colors #= "viridis")
-```
 
 ```{r, message = FALSE, warning = FALSE}
 plot_ILCA_MEAN_NEWCASE =
@@ -237,182 +192,4 @@ plot_ILCA_MEAN_Transit
 This panel shows the daily confirmed case trends in IL and LA from Feb.15 to Oct.27. We see that an overall continuously increasing trend in IL. The trend tends to drop from the middle of May but back to a more rapid increase since July. On the other hand, the increase in LA is relatively gentle, and its growth stopped as it reached its peak in late July.
 
 *These plots demonstrate that the trends in daily confirmed cases and mobility changes are quite alike in LA and IL before July, showing evidence that a similar association between COVID-19 and ground transportation exist in IL as well. The primary reason that the decrease in IL's ground transportation usage is smaller than expected might be that once the daily confirmed cases started decreasing, people started taking public transportation and failed to notice the “second wave” of increased cases.*
-
-```{r, message = FALSE, warning = FALSE}
-#plot_ILCA_MEAN_Transit/plot_ILCA_MEAN_NEWCASE
-```
-
-
-```{r, message = FALSE, warning = FALSE}
-#Covid_mobility_data %>%
-#  group_by(date,state) %>%
-#   filter(!is.na(transit_stations_percent_change_from_baseline)& state == #c("LA","IL")) %>%
-#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
-#            sum_totalcases = sum(tot_cases),
-#            n = n()) %>%
-#  ggplot(aes(x = date,y = sum_totalcases,color = state)) +
-# geom_point(alpha=0.3) +
-#  geom_smooth()+
-# scale_x_date(date_breaks = "1 month") +
-#    facet_wrap(~state)
-```
-
-```{r, message = FALSE, warning = FALSE}
-##comparing only by date
-#Covid_mobility_data %>%
-#  group_by(date) %>%
-#   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
-#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
-#            sum_newcases = sum(new_case),
-#            n = n()) %>%
-#  ggplot(aes(x = date,y = sum_newcases,color="light pink")) +
-# geom_point(aes(size=mean_transit,alpha=0.3))+
-# scale_x_date(date_breaks = "1 month")+   
-#  labs(titles = "number of newcases daily",
-#        y = "New Cases"  )
-#  
-```
-
-```{r, message = FALSE, warning = FALSE}
-##comparing only by date
-##TRANSIT
-#Covid_mobility_data %>%
-#  group_by(date) %>%
-#   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
-#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
-#             sum_newcases = sum(new_case),
-#            n = n()) %>%
-#  ggplot(aes(x = date,y = mean_transit,color="light pink")) +
-# geom_point(aes(size=sum_newcases,alpha=0.3))+
-# scale_x_date(date_breaks = "1 month")+
-#    labs(titles = "change in transit after covid",
-#        y = "change in transit from baseline"  )
-```
-
-**Economics**
-
-### Mobility Trends for Retail & Recreation
-
-
-```{r, message = FALSE, warning = FALSE}
-cols <- c("transit_change"="#3591d1","retail/recreation"="#62c76b")
-
-
-Transit = Covid_mobility_data %>%
-  group_by(date) %>%
-   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
-  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
-            sum_newcases = sum(new_case),
-            n = n()) 
-
-retail=Covid_mobility_data %>%
-  group_by(date) %>%
-   filter(!is.na(retail_and_recreation_percent_change_from_baseline)) %>%
-  summarise(mean_retail_recreation = mean(retail_and_recreation_percent_change_from_baseline),
-             sum_newcases = sum(new_case),
-            n = n())
-
-combine = ggplot() +
-  geom_bar(data=Transit, aes(x= date,y = mean_transit,fill="transit_change"),stat="identity")+
-   geom_line(data=retail, aes(x= date,y = mean_retail_recreation,color="retail/recreation"),size = 0.6)+
-  scale_x_date(date_breaks = "1 month",
-               date_labels = '%b%d \n%Y')+   
-  labs(title = "compare retail and recreation change with transit change from baseline",
-       y = "average  Change from Baseline"  )+
-   scale_fill_manual(name="bar",values=cols)
-
-ggplotly(combine)
-  
-```
-
-The plot shows the mobility trends for places like restaurants, cafes, shopping centers, theme parks, museums, libraries, and movie theatres from Feb.15 to Oct.27. The difference compared to baseline is shown by the y-axis. The plot shows a significant decrease in the percent of baseline from the beginning of March until April. Then, the trend starts bouncing back and reaches an average level in July.
-
-### Monthly Personal Consumption Expenditures (in Billion) from 2018-2020
-
-```{r, message = FALSE, warning = FALSE}
-personal_consumption_df = 
-  read_csv("./data/personal_consumption.csv") %>% 
-  janitor::clean_names() %>% 
-  mutate(date = fred_graph_observations, 
-         personal_consumption = x2) %>% 
-  select(date, personal_consumption) %>% 
-  slice(719:752) %>% 
-  mutate(personal_consumption = as.double(personal_consumption),
-         personal_consumption = round(personal_consumption, digits = 1))
-  
-  
-personal_consumption_df %>% 
-  ggplot(aes(x = date, y = personal_consumption))+
-  geom_point(color = 'blue')+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-  labs(x = "Date", y = "Personal Consumption Expenditure (in Billion)")
-```
-
-As the title states, this plot presents the monthly personal consumption expenditures (in billions) over time from 2018 to 2020. We can observe a severe drop in March, April and May 2020, which corresponds to the progression of COVID-19.
-
-### Monthly Unemployment Rate Percentage from 2018-2020
-
-```{r, message = FALSE, warning = FALSE}
-unemployment_df = 
-  read_csv("./data/unemployment_rate.csv") %>% 
-  janitor::clean_names() %>% 
-  mutate(date = fred_graph_observations, 
-         unemployment_rate = x2) %>% 
-  select(date, unemployment_rate) %>% 
-  slice(851:884)
-  
-  
-unemployment_df %>% 
-  ggplot(aes(x = fct_inorder(unemployment_rate), y = date))+
-  geom_point(color = 'blue')+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-  labs(x = "Unemployment Rate", y = "Date")+
-  coord_flip()
-```
-
-Despite the overall increasing trend, we can see an even rapid increase in unemployment rate since March 2020.
-
-
-```{r, message = FALSE, warning = FALSE}
-#Covid_mobility_data %>%
-#  group_by(date) %>%
-#   filter(!is.na(residential_percent_change_from_baseline)) %>%
-#  summarise(mean_residential = mean(residential_percent_change_from_baseline),
-#             sum_newcases = sum(new_case),
-#            n = n()) %>%
-#  ggplot(aes(x = date,y = mean_residential,color="light pink")) +
-# geom_point(aes(size=sum_newcases,alpha=0.3))+
-# scale_x_date(date_breaks = "1 month")+  
-#  labs(titles = "change in retial and recreation after covid",
-#        y = "change in retail and recreation from baseline"  )
-#  
-```
-
-```{r, message = FALSE, warning = FALSE}
-##comparing only by state
-#Covid_mobility_data %>%
-#  group_by(state) %>%
-#   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
-#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
-#            mean_newcases = mean(new_case),
-#            n = n()) 
-```
-
-
-```{r, message = FALSE, warning = FALSE}
-#mean_Covid_mobility_data =
-#  Covid_mobility_data %>%
-#  group_by(state) %>%
-#   filter(!is.na(transit_stations_percent_change_from_baseline)) %>%
-#  summarise(mean_transit = mean(transit_stations_percent_change_from_baseline),
-#            mean_newcases = mean(new_case),
-#            n = n()) 
-```
-
-
-
-
-
-
-
 
